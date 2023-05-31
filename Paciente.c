@@ -13,8 +13,7 @@ struct paciente{
 //Pré-Cadastro
 
 
-//por enquanto ta dando problema so nessa primeira função, acho.
-//seg fault desde q eu comecei a implementar a questão da repetição de cartão do sus
+//Retorna um paciente caso acorra tudo certo / NULL se cartão já houver sido cadastrado
 
 Paciente* preCadastroPaciente(){
 
@@ -22,32 +21,34 @@ Paciente* preCadastroPaciente(){
 
     char nome_aux[50];
 
-    scanf(" %[^\n]\n", nome_aux);
+    scanf("%[^\n]\n", nome_aux);
     
     nome_aux[strlen(nome_aux) - 1] = '\0';          //Remove \n
 
-    paciente->nome = strdup(nome_aux);
+    paciente->nome = strdup(nome_aux);              
 
-    scanf(" %s\n", paciente->cartao_sus);
+    scanf(" %s\n", paciente->cartao_sus);           
 
-
+    
 
     //Checa repetição de cartão sus
 
     FILE* file = fopen("banco_pacientes", "r");
+    
+    if(file == NULL){
+        printf("Erro na abertura do arquivo 'banco_pacientes'");
+        exit(0);
+    }
 
     int n_pacientes = 0;
     char linha[TAM_MAX_LINHA];
     char* token;
 
-    fscanf(file, "%d", &n_pacientes);
+    fscanf(file, "%d\n", &n_pacientes);
 
     for(int i=0; i<n_pacientes; i++){
 
-        fscanf(file, "%[^\n]", linha);
-
-        //debug
-        printf("%s\n", linha);
+        fscanf(file, " %[^\n]", linha);
 
         token = strtok(linha, ";");
         token = strtok(NULL, ";");
@@ -80,7 +81,7 @@ Paciente* preCadastroPaciente(){
     scanf(" %s\n", paciente->genero);
 
     //nao to entendendo pq ta guardando errado o primeiro caractere de cada string. 
-    //nao pode ser problema do \n pq eu to engolindo todos com o scanf
+    //nao pode ser problema do \n pq eu to engolindo todos com o scanf (se eu tiro todos dá errado igual)
     //ta guardando o telefone no genero e nada em telefone
 
     // fgets(paciente->cartao_sus, 19, stdin);

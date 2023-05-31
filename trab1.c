@@ -20,10 +20,7 @@ int main(){
 
 
     Paciente* paciente = preCadastroPaciente();
-    
     //if(paciente == NULL) continue;
-    
-    //printDebug(paciente);
 
     gravaPaciente(paciente);
 
