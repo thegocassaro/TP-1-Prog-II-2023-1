@@ -12,9 +12,9 @@ struct paciente{
 
 //Pré-Cadastro
 
-//O cartão do SUS é o identificador único do paciente. Portanto, o sistema deve garantir que não seja possível 
-//cadastrar mais de um paciente com o mesmo número do SUS. Se houver tentativa de realizar a operação, 
-//o sistema deve informar o usuário que não é possível pois já existe paciente cadastrado com o mesmo número.
+
+//por enquanto ta dando problema so nessa primeira função, acho.
+//seg fault desde q eu comecei a implementar a questão da repetição de cartão do sus
 
 Paciente* preCadastroPaciente(){
 
@@ -22,18 +22,114 @@ Paciente* preCadastroPaciente(){
 
     char nome_aux[50];
 
-    fgets(nome_aux, 49, stdin);
+    scanf(" %[^\n]\n", nome_aux);
+    
+    nome_aux[strlen(nome_aux) - 1] = '\0';          //Remove \n
 
     paciente->nome = strdup(nome_aux);
 
-    fgets(paciente->cartao_sus, 19, stdin);
-    fgets(paciente->data_nascimento, 11, stdin);
-    fgets(paciente->telefone, 15, stdin);
-    fgets(paciente->genero, 10, stdin);
+    scanf(" %s\n", paciente->cartao_sus);
+
+
+
+    //Checa repetição de cartão sus
+
+    FILE* file = fopen("banco_pacientes", "r");
+
+    int n_pacientes = 0;
+    char linha[TAM_MAX_LINHA];
+    char* token;
+
+    fscanf(file, "%d", &n_pacientes);
+
+    for(int i=0; i<n_pacientes; i++){
+
+        fscanf(file, "%[^\n]", linha);
+
+        //debug
+        printf("%s\n", linha);
+
+        token = strtok(linha, ";");
+        token = strtok(NULL, ";");
+
+        if(strcmp(paciente->cartao_sus, token) == 0){
+
+            fclose(file);
+
+            printf("Esse número de cartão já existe. Por favor refaça o cadastro.\n");
+
+            free(paciente->nome);
+            free(paciente);
+
+            paciente = NULL;
+
+            return paciente;
+
+        }
+
+    }
+
+    fclose(file);
+
+
+
+    //Continua leitura
+
+    scanf(" %s\n", paciente->data_nascimento);
+    scanf(" %s\n", paciente->telefone);
+    scanf(" %s\n", paciente->genero);
+
+    //nao to entendendo pq ta guardando errado o primeiro caractere de cada string. 
+    //nao pode ser problema do \n pq eu to engolindo todos com o scanf
+    //ta guardando o telefone no genero e nada em telefone
+
+    // fgets(paciente->cartao_sus, 19, stdin);
+    // scanf("%*c");
+    // fgets(paciente->data_nascimento, 11, stdin);
+    // scanf("%*c");
+    // fgets(paciente->telefone, 15, stdin);
+    // scanf("%*c");
+    // fgets(paciente->genero, 10, stdin);
+    // scanf("%*c");
 
     return paciente;
 }
 
+
+
+void gravaPaciente(Paciente* paciente){
+
+    FILE* file = fopen("banco_pacientes", "r+");
+
+    if(file == NULL){
+        printf("Erro na abertura do arquivo 'banco_pacientes'\n");
+        exit(1);
+    }
+
+    int n_pacientes = 0;
+
+    //Reescreve numero de pacientes
+
+    fscanf(file, "%d", &n_pacientes);
+
+    fseek(file, 0, SEEK_SET);
+
+    fprintf(file, "%d", (n_pacientes + 1));
+
+    //Grava em formato csv
+
+    fseek(file, 0, SEEK_END);
+
+    fprintf(file, "\n%s;%s;%s;%s;%s",   paciente->nome, 
+                                        paciente->cartao_sus, 
+                                        paciente->data_nascimento, 
+                                        paciente->telefone, 
+                                        paciente->genero);
+
+
+    fclose(file);
+
+}
 
 
 void LiberaPacientes(Paciente* paciente){
@@ -47,12 +143,6 @@ void LiberaPacientes(Paciente* paciente){
 
 void printDebug(Paciente* paciente){
 
-    puts(paciente->nome);
-    puts(paciente->cartao_sus);
-    puts(paciente->data_nascimento);
-    puts(paciente->genero);
-    puts(paciente->telefone);
-
-    //printf("%s %s %s %s %s\n", paciente->nome, paciente->cartao_sus, paciente->data_nascimento, paciente->telefone, paciente->genero);
+    printf("%s %s %s %s %s\n", paciente->nome, paciente->cartao_sus, paciente->data_nascimento, paciente->telefone, paciente->genero);
     
 }

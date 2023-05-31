@@ -8,7 +8,10 @@
 typedef struct paciente Paciente;
 
 //Pré-Cadastro
+#define TAM_MAX_LINHA 105
+
 Paciente* preCadastroPaciente();
+void gravaPaciente(Paciente* paciente);
 void LiberaPacientes(Paciente* paciente);
 
 //Debug

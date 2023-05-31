@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Paciente.h"
+#include "Consulta.h"
+#include "Menu.h"
 
 /*
 Tentei colocar um miniSADE.h como header pra todos meus .c (paciente, consulta, etc).
@@ -15,13 +17,19 @@ mas não posso dizer com certeza se na prática é a mesma coisa
 
 int main(){
 
+
+
     Paciente* paciente = preCadastroPaciente();
     
-    printDebug(paciente);
+    //if(paciente == NULL) continue;
+    
+    //printDebug(paciente);
+
+    gravaPaciente(paciente);
+
+
 
     LiberaPacientes(paciente);
-
-
 
     return 0;
 
