@@ -252,7 +252,7 @@ int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 
 
 }
 
-
+//oi
 
 void liberaConsulta(Consulta* consulta){
 
