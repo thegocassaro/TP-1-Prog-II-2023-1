@@ -24,9 +24,10 @@ int main(){
 
     gravaPaciente(paciente);
 
+    //Consulta* consulta = criaConsulta();
 
-
-    LiberaPacientes(paciente);
+    liberaPacientes(paciente);
+    //liberaConsulta(consulta);
 
     return 0;
 

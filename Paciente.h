@@ -12,7 +12,7 @@ typedef struct paciente Paciente;
 
 Paciente* preCadastroPaciente();
 void gravaPaciente(Paciente* paciente);
-void LiberaPacientes(Paciente* paciente);
+void liberaPacientes(Paciente* paciente);
 
 //Debug
 void printDebug(Paciente* paciente);

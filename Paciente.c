@@ -12,6 +12,8 @@ struct paciente{
 
 //Pré-Cadastro
 
+//Falta tratar os casos que não estao dentro dos formatos
+
 
 //Retorna um paciente caso acorra tudo certo / NULL se cartão já houver sido cadastrado
 
@@ -133,7 +135,7 @@ void gravaPaciente(Paciente* paciente){
 }
 
 
-void LiberaPacientes(Paciente* paciente){
+void liberaPacientes(Paciente* paciente){
 
     free(paciente->nome);
     free(paciente);

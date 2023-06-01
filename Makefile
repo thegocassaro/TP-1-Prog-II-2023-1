@@ -7,8 +7,14 @@ files.o:
 clean:
 	rm -f *.o
 
-input:
-	./trab1 < input1 > output1
+input1:
+	./trab1 < inputs/input1 > output1
+
+input2:
+	./trab1 < inputs/input2 > output1
+
+input3:
+	./trab1 < inputs/input3 > output1
 
 valgrind:
-	valgrind ./trab1
+	valgrind ./trab1 < inputs/input3 > output1
