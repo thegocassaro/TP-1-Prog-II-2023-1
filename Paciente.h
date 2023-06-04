@@ -15,6 +15,7 @@ void gravaPaciente(Paciente* paciente);
 void liberaPacientes(Paciente* paciente);
 
 //Debug
-void printDebug(Paciente* paciente);
+void printDebugPaciente(Paciente* paciente);
+void reiniciaBancoPacientes();
 
 #endif

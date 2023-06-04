@@ -23,13 +23,13 @@ Paciente* preCadastroPaciente(){
 
     char nome_aux[50];
 
-    scanf("%[^\n]\n", nome_aux);
+    scanf("%[^\n]", nome_aux);
     
     nome_aux[strlen(nome_aux) - 1] = '\0';          //Remove \n
 
     paciente->nome = strdup(nome_aux);              
 
-    scanf(" %s\n", paciente->cartao_sus);           
+    scanf(" %s", paciente->cartao_sus);           
 
     
 
@@ -46,7 +46,7 @@ Paciente* preCadastroPaciente(){
     char linha[TAM_MAX_LINHA];
     char* token;
 
-    fscanf(file, "%d\n", &n_pacientes);
+    fscanf(file, "%d", &n_pacientes);
 
     for(int i=0; i<n_pacientes; i++){
 
@@ -78,9 +78,9 @@ Paciente* preCadastroPaciente(){
 
     //Continua leitura
 
-    scanf(" %s\n", paciente->data_nascimento);
-    scanf(" %s\n", paciente->telefone);
-    scanf(" %s\n", paciente->genero);
+    scanf(" %s", paciente->data_nascimento);
+    scanf(" %s", paciente->telefone);
+    scanf(" %s", paciente->genero);
 
     //nao to entendendo pq ta guardando errado o primeiro caractere de cada string. 
     //nao pode ser problema do \n pq eu to engolindo todos com o scanf (se eu tiro todos dá errado igual)
@@ -144,8 +144,25 @@ void liberaPacientes(Paciente* paciente){
 
 
 
-void printDebug(Paciente* paciente){
+void printDebugPaciente(Paciente* paciente){
 
     printf("%s %s %s %s %s\n", paciente->nome, paciente->cartao_sus, paciente->data_nascimento, paciente->telefone, paciente->genero);
     
+}
+
+
+
+void reiniciaBancoPacientes(){
+
+    FILE* file = fopen("banco_pacientes", "w");
+
+    if(file == NULL){
+        printf("Erro na abertura do arquivo 'banco_pacientes'\n");
+        exit(1);
+    }
+
+    fprintf(file, "%d", 0);
+
+    fclose(file);
+
 }

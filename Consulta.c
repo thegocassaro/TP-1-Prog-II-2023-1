@@ -41,64 +41,67 @@ Consulta* iniciaConsulta(Consulta* consulta){
 
     //Diabetes
     printf("(SIM ou NAO) Possui diabetes? ");
-    scanf(" %s\n", getResposta);
+    scanf(" %s", getResposta);
 
     converteLetrasMaiusculo(getResposta);
     aux = verificaResposta(getResposta);
-    if(aux == -1) abortaProcesso(consulta);
+    //DEBUG
+    printf("%d\n", aux);
+    
+    // if(aux == -1) abortaProcesso(consulta);
     consulta->diabetes = aux;
 
 
     //Fumante
     printf("(SIM ou NAO) É fumante? ");
-    scanf(" %s\n", getResposta);
+    scanf(" %s", getResposta);
 
     converteLetrasMaiusculo(getResposta);
     aux = verificaResposta(getResposta);
-    if(aux == -1) abortaProcesso(consulta);
+    //DEBUG
+    printf("%d\n", aux);
+    
+    // if(aux == -1) abortaProcesso(consulta);
     consulta->fumante = aux;
     
 
     //Alergia
-    printf("(SIM ou NAO) Alergia a algum medicamento? ");
-    scanf(" %s\n", getResposta);
+    printf("(<NOME DO MEDICAMENTO> ou NAO) Alergia a algum medicamento? ");
+    scanf(" %[^\n]", getMedicamento);
 
-    converteLetrasMaiusculo(getResposta);
-    aux = verificaResposta(getResposta);
-    if(aux == -1) abortaProcesso(consulta);
+    converteLetrasMaiusculo(getMedicamento);
+    aux = verificaMedicamento(getMedicamento, consulta);
+    //DEBUG
+    printf("%s\n", getMedicamento);
+    printf("%d\n", aux);
+
+    // if(aux == -1) abortaProcesso(consulta);
     consulta->alergia = aux;
-
-
-    //Medicamento
-    if(consulta->alergia == 1){
-
-        printf("Nome do medicamento: ");
-        scanf(" %s\n", getResposta);
-
-        converteLetrasMaiusculo(getResposta);
-        consulta->medicamento_alergia = strdup(getResposta);
-    }
-    
-    else consulta->medicamento_alergia = NULL;
 
 
     //Historico de cancer
     printf("(SIM ou NAO) Possui histórico de câncer? ");
-    scanf(" %s\n", getResposta);
+    scanf(" %s", getResposta);
 
     converteLetrasMaiusculo(getResposta);
     aux = verificaResposta(getResposta);
-    if(aux == -1) abortaProcesso(consulta);
+    //DEBUG
+    printf("%d\n", aux);
+    
+    // if(aux == -1) abortaProcesso(consulta);
     consulta->historico_cancer = aux;
     
 
     //Pele
     printf("(I, II, III, IV, V, VI) Tipo de pele? ");
-    scanf(" %s\n", getResposta);
+    scanf(" %s", getResposta);
 
     converteLetrasMaiusculo(getResposta);
     aux = verificaPele(getResposta);
-    if(aux == -1) abortaProcesso(consulta);
+    //DEBUG
+    printf("%d\n", aux);
+
+    // if(aux == -1) abortaProcesso(consulta);
     consulta->pele = aux;
 
 
@@ -120,7 +123,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
 
         //Diagnostico
         printf("Diagnóstico: ");
-        scanf(" %s\n", getResposta);
+        scanf(" %s", getResposta);
 
         converteLetrasMaiusculo(getResposta);
         strcpy( consulta->lesao[id].diagnostico, getResposta );
@@ -128,7 +131,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
 
         //Regiao
         printf("Região: ");
-        scanf(" %s\n", getResposta);
+        scanf(" %s", getResposta);
 
         converteLetrasMaiusculo(getResposta);
         strcpy( consulta->lesao[id].regiao, getResposta );
@@ -136,38 +139,49 @@ Consulta* iniciaConsulta(Consulta* consulta){
 
         //Tamanho
         printf("(mm) Tamanho: ");
-        scanf(" %d\n", consulta->lesao[id].tamanho);
+        scanf(" %d\n", &consulta->lesao[id].tamanho);
+        //DEBUG
+        printf("%d\n", consulta->lesao[id].tamanho);
 
 
         //Cirurgia
         printf("(SIM ou NAO) Necessidade de cirurgia? ");
-        scanf(" %s\n", getResposta);
+        scanf(" %s", getResposta);
 
         converteLetrasMaiusculo(getResposta);
         aux = verificaResposta(getResposta);
-        if(aux == -1) abortaProcesso(consulta);
+        //DEBUG
+        printf("%d\n", aux);
+        
+        // if(aux == -1) abortaProcesso(consulta);
         consulta->lesao[id].cirurgia = aux;
 
 
         //Crioterapia
         printf("(SIM ou NAO) Necessidade de crioterapia? ");
-        scanf(" %s\n", getResposta);
+        scanf(" %s", getResposta);
 
         converteLetrasMaiusculo(getResposta);
         aux = verificaResposta(getResposta);
-        if(aux == -1) abortaProcesso(consulta);
+        //DEBUG
+        printf("%d\n", aux);
+        
+        // if(aux == -1) abortaProcesso(consulta);
         consulta->lesao[id].crioterapia = aux;
 
 
         //Mais lesoes?
         printf("(SIM ou NAO) Deseja cadastrar outra lesão? ");
-        scanf(" %s\n", getResposta);
+        scanf(" %s", getResposta);
 
         converteLetrasMaiusculo(getResposta);
         aux = verificaResposta(getResposta);
-        if(aux == -1) abortaProcesso(consulta);
+        //DEBUG
+        printf("%d\n", aux);
+        
+        // if(aux == -1) abortaProcesso(consulta);
 
-        else if(aux == 0) break;
+        if(aux == 0) break;
 
         //if aux == 1
         consulta->cont_lesao += 1;
@@ -208,7 +222,31 @@ int verificaResposta(char* resposta){
 
 
 
+int verificaMedicamento(char* resposta, Consulta* consulta){
+
+    if(!strcmp(resposta, "NAO")) return 0;
+
+    else{
+        consulta->medicamento_alergia = strdup(resposta);
+        return 1;
+    }
+
+    return -1;
+
+}
+
+
+
 int verificaPele(char* resposta){
+
+    if(!strcmp(resposta, "I")) return 1;
+    if(!strcmp(resposta, "II")) return 2;
+    if(!strcmp(resposta, "III")) return 3;
+    if(!strcmp(resposta, "IV")) return 4;
+    if(!strcmp(resposta, "V")) return 5;
+    if(!strcmp(resposta, "VI")) return 6;
+
+    return -1;
 
 }
 
@@ -227,7 +265,7 @@ int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 
     char linha[TAM_MAX_LINHA];
     char* token;
 
-    fscanf(file, "%d\n", &n_pacientes);
+    fscanf(file, "%d", &n_pacientes);
 
     for(int i=0; i<n_pacientes; i++){
 
@@ -256,8 +294,36 @@ int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 
 
 void liberaConsulta(Consulta* consulta){
 
-    free(consulta->medicamento_alergia);
+    if(consulta->alergia == 1) free(consulta->medicamento_alergia);
     free(consulta->lesao);
     free(consulta);
+
+}
+
+
+
+void abortaProcesso(Consulta* consulta){
+
+}
+
+
+
+void printDebugConsulta(Consulta* consulta){
+
+    printf("%d %d %d %d %d %d %d %d %d %s %s %s %s\n",  consulta->diabetes,
+                                                        consulta->fumante,
+                                                        consulta->historico_cancer,
+                                                        consulta->alergia,
+                                                        consulta->pele,
+                                                        consulta->cont_lesao,
+                                                        consulta->lesao->tamanho,
+                                                        consulta->lesao->cirurgia,
+                                                        consulta->lesao->crioterapia,
+                                                        consulta->medicamento_alergia,
+                                                        consulta->lesao->rotulo,
+                                                        consulta->lesao->diagnostico,
+                                                        consulta->lesao->regiao
+
+    );
 
 }

@@ -17,17 +17,29 @@ mas não posso dizer com certeza se na prática é a mesma coisa
 
 int main(){
 
+    //o problema por enquanto ta na iniciaconsulta; quando escrevo nao pro medicamento retorna 1 em vez de 0
+    //ficar de olho tambem noq ta sendo passado pra dentro de consulta pq o print ta esquisito
 
+    //debug
+    reiniciaBancoPacientes();
 
     Paciente* paciente = preCadastroPaciente();
     //if(paciente == NULL) continue;
 
     gravaPaciente(paciente);
 
-    //Consulta* consulta = criaConsulta();
+    //debug
+    printDebugPaciente(paciente);
+
+    Consulta* consulta = criaConsulta();
+    consulta = iniciaConsulta(consulta);
+    //if(abortaProcesso) continue;
+
+    //debug
+    printDebugConsulta(consulta);
 
     liberaPacientes(paciente);
-    //liberaConsulta(consulta);
+    liberaConsulta(consulta);
 
     return 0;
 
