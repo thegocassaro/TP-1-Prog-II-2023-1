@@ -1,5 +1,5 @@
 all: files.o
-	gcc -o trab1 *.o
+	gcc -o trab1 *.o -lm
 
 files.o:
 	gcc -c *.c

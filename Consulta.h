@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <math.h>
 
 typedef struct consulta Consulta;
 typedef struct lesao Lesao;
@@ -17,7 +19,7 @@ Consulta* iniciaConsulta(Consulta* consulta);
 void liberaConsulta(Consulta* consulta);
 
 int verificaCadastro(char* cartao_sus);
-int calculaIdade();
+int calculaIdade(int dia_b, int mes_b, int ano_b);
 int verificaResposta(char* resposta);
 int verificaPele(char* resposta);
 void converteLetrasMaiusculo(char* str);

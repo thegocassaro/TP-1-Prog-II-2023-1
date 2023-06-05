@@ -298,9 +298,11 @@ int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 
             token = strtok(NULL, ";");
             token = strtok(NULL, ";");
             char* getIdade = strdup(token);
+            
+            int dia, mes, ano;
+            sscanf(getIdade, "%d/%d/%d", &dia, &mes, &ano);
 
-            int idade = calculaIdade();             //parei aqui
-
+            int idade = calculaIdade(dia, mes, ano);
 
             printf("NOME: %s\n", nome);
             printf("IDADE: %d\n\n", idade);
@@ -323,7 +325,38 @@ int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 
 
 
 
-int calculaIdade(){
+int calculaIdade(int dia_b, int mes_b, int ano_b){
+
+    //data atual: 11/05/2023
+    
+    //tm_year -> number of years since 1900
+    //tm_mon -> range 0 to 11
+
+    int dia_a = 11, mes_a = 4, ano_a = (2023 - 1900);
+    
+    mes_b -= 1;
+    ano_b -= 1900;
+
+    struct tm data_atual, data_nascimento;
+
+    data_atual.tm_mday = dia_a;
+    data_atual.tm_mon = mes_a;
+    data_atual.tm_year = ano_a;
+
+    data_nascimento.tm_mday = dia_b;
+    data_nascimento.tm_mon = mes_b;
+    data_nascimento.tm_year = ano_b;
+
+    time_t data_a = mktime(&data_atual);
+    time_t data_b = mktime(&data_nascimento);
+
+    double idade = difftime(data_a, data_b);
+
+    //1 segundo = 3.1688×10^-8 anos
+
+    int diferenca_dias = ( idade / (3.1688 * pow(10, -8)) );
+
+    return diferenca_dias;
 
 }
 
