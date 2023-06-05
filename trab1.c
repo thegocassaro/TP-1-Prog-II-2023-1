@@ -32,7 +32,7 @@ int main(){
 
     Consulta* consulta = criaConsulta();
     consulta = iniciaConsulta(consulta);
-    //if(abortaProcesso) continue;
+    //if(consulta == NULL) continue;
 
     //debug
     printDebugConsulta(consulta);

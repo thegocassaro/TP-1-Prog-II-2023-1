@@ -39,6 +39,21 @@ Consulta* iniciaConsulta(Consulta* consulta){
     int aux = 0;
 
 
+    //Pega cartao sus e checa existencia
+    char cartao_sus[19];
+    scanf(" %s", cartao_sus);
+    int checa_cartao = verificaCadastro(cartao_sus);
+
+    if(checa_cartao == 0){
+
+        printf("Esse número de cartão não está cadastrado. Consulta abortada.\n");
+        free(consulta);
+
+        return NULL;
+
+    }
+
+
     //Diabetes
     printf("(SIM ou NAO) Possui diabetes? ");
     scanf(" %s", getResposta);
@@ -274,8 +289,24 @@ int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 
         token = strtok(linha, ";");
         token = strtok(NULL, ";");
 
+        //Se existir cartao, tambem exibe o nome e idade do paciente
         if(strcmp(cartao_sus, token) == 0){
 
+            token = strtok(linha, ";");
+            char* nome = strdup(token);
+
+            token = strtok(NULL, ";");
+            token = strtok(NULL, ";");
+            char* getIdade = strdup(token);
+
+            int idade = calculaIdade();             //parei aqui
+
+
+            printf("NOME: %s\n", nome);
+            printf("IDADE: %d\n\n", idade);
+
+            free(nome);
+            free(getIdade);
             fclose(file);
 
             return 1;
@@ -292,6 +323,12 @@ int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 
 
 
 
+int calculaIdade(){
+
+}
+
+
+
 void liberaConsulta(Consulta* consulta){
 
     if(consulta->alergia == 1) free(consulta->medicamento_alergia);
@@ -303,6 +340,40 @@ void liberaConsulta(Consulta* consulta){
 
 
 void abortaProcesso(Consulta* consulta){
+
+}
+
+
+
+void gravaLog(Consulta* consulta){
+
+    //Checa o indice do ultimo log
+    FILE* checa_logs;
+    int cont_logs = 1;
+
+    while(1){
+
+        char str[10] = "log_";
+        sprintf(str, "%d", cont_logs);
+
+        checa_logs = fopen(str, "r");
+        cont_logs++;
+
+        if(checa_logs == NULL) break;
+
+        fclose(checa_logs);
+
+    }
+
+    fclose(checa_logs);
+
+    //Grava novo arquivo log apos consulta
+    char str[10] = "log_";
+    sprintf(str, "%d", cont_logs);
+
+    FILE* log = fopen(str, "w");
+
+
 
 }
 
