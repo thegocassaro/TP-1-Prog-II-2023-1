@@ -66,17 +66,28 @@ Consulta* iniciaConsulta(Consulta* consulta){
     
 
     //Alergia
-    printf("(<NOME DO MEDICAMENTO> ou NAO) Alergia a algum medicamento? ");
-    scanf(" %[^\n]", getMedicamento);
+    printf("(SIM ou NAO) Alergia a algum medicamento? ");
+    scanf(" %s", getResposta);
 
-    converteLetrasMaiusculo(getMedicamento);
-    aux = verificaMedicamento(getMedicamento, consulta);
+    converteLetrasMaiusculo(getResposta);
+    aux = verificaResposta(getResposta);
     //DEBUG
-    printf("%s\n", getMedicamento);
     printf("%d\n", aux);
-
+    
     // if(aux == -1) abortaProcesso(consulta);
     consulta->alergia = aux;
+
+    if(consulta->alergia){
+
+        scanf(" %[^\n]", getMedicamento);
+
+        converteLetrasMaiusculo(getMedicamento);
+        consulta->medicamento_alergia = strdup(getMedicamento);
+        //DEBUG
+        printf("%s\n", getMedicamento);
+        printf("%d\n", aux);
+
+    }
 
 
     //Historico de cancer
@@ -124,6 +135,8 @@ Consulta* iniciaConsulta(Consulta* consulta){
         //Diagnostico
         printf("Diagnóstico: ");
         scanf(" %s", getResposta);
+        //DEBUG
+        printf("%s\n", getResposta);
 
         converteLetrasMaiusculo(getResposta);
         strcpy( consulta->lesao[id].diagnostico, getResposta );
@@ -132,6 +145,8 @@ Consulta* iniciaConsulta(Consulta* consulta){
         //Regiao
         printf("Região: ");
         scanf(" %s", getResposta);
+        //DEBUG
+        printf("%s\n", getResposta);
 
         converteLetrasMaiusculo(getResposta);
         strcpy( consulta->lesao[id].regiao, getResposta );
@@ -218,21 +233,6 @@ int verificaResposta(char* resposta){
     else if(!strcmp(resposta, "NAO")) return 0;
 
     else return -1;
-}
-
-
-
-int verificaMedicamento(char* resposta, Consulta* consulta){
-
-    if(!strcmp(resposta, "NAO")) return 0;
-
-    else{
-        consulta->medicamento_alergia = strdup(resposta);
-        return 1;
-    }
-
-    return -1;
-
 }
 
 

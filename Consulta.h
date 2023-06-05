@@ -17,7 +17,6 @@ void liberaConsulta(Consulta* consulta);
 
 int verificaCadastro(char* cartao_sus);
 int verificaResposta(char* resposta);
-int verificaMedicamento(char* resposta, Consulta* consulta);
 int verificaPele(char* resposta);
 void converteLetrasMaiusculo(char* str);
 void abortaProcesso(Consulta* consulta); //encerra processo se colocada saida nao esperada e desaloca memoria

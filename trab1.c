@@ -17,8 +17,7 @@ mas não posso dizer com certeza se na prática é a mesma coisa
 
 int main(){
 
-    //o problema por enquanto ta na iniciaconsulta; quando escrevo nao pro medicamento retorna 1 em vez de 0
-    //ficar de olho tambem noq ta sendo passado pra dentro de consulta pq o print ta esquisito
+    
 
     //debug
     reiniciaBancoPacientes();
