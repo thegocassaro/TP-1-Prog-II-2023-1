@@ -42,7 +42,10 @@ Consulta* iniciaConsulta(Consulta* consulta){
     //Pega cartao sus e checa existencia
     char cartao_sus[19];
     scanf(" %s", cartao_sus);
-    int checa_cartao = verificaCadastro(cartao_sus);
+    
+    int checa_cartao = verificaCadastro(cartao_sus);        //dando seg fault
+    //DEBUG
+    printf("%s %d\n", cartao_sus, checa_cartao);
 
     if(checa_cartao == 0){
 
@@ -278,7 +281,7 @@ int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 
 
     int n_pacientes = 0;
     char linha[TAM_MAX_LINHA];
-    char* token;
+    char *nome_lido, *cartao_sus_lido, *data_lida;
 
     fscanf(file, "%d", &n_pacientes);
 
@@ -286,29 +289,26 @@ int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 
 
         fscanf(file, " %[^\n]", linha);
 
-        token = strtok(linha, ";");
-        token = strtok(NULL, ";");
+        nome_lido = strtok(linha, ";");
+        cartao_sus_lido = strtok(NULL, ";");
+        data_lida = strtok(NULL, ";");
 
         //Se existir cartao, tambem exibe o nome e idade do paciente
-        if(strcmp(cartao_sus, token) == 0){
+        if(strcmp(cartao_sus, cartao_sus_lido) == 0){
 
-            token = strtok(linha, ";");
-            char* nome = strdup(token);
-
-            token = strtok(NULL, ";");
-            token = strtok(NULL, ";");
-            char* getIdade = strdup(token);
+            //por algum motivo, depois do primeiro uso do strtok, quando tentei chamar a funcao de novo, usando 
+            //token = strtok(linha, ";");       -> aqui ainda funciona e retorna o nome
+            //token = strtok(NULL, ";");        -> aqui ja retorna null, sempre
+            //e logo em seguida dava seg fault
             
             int dia, mes, ano;
-            sscanf(getIdade, "%d/%d/%d", &dia, &mes, &ano);
+            sscanf(data_lida, "%d/%d/%d", &dia, &mes, &ano);
 
             int idade = calculaIdade(dia, mes, ano);
 
-            printf("NOME: %s\n", nome);
+            printf("NOME: %s\n", nome_lido);
             printf("IDADE: %d\n\n", idade);
 
-            free(nome);
-            free(getIdade);
             fclose(file);
 
             return 1;
@@ -333,7 +333,7 @@ int calculaIdade(int dia_b, int mes_b, int ano_b){
     //tm_mon -> range 0 to 11
 
     int dia_a = 11, mes_a = 4, ano_a = (2023 - 1900);
-    
+
     mes_b -= 1;
     ano_b -= 1900;
 
@@ -350,12 +350,18 @@ int calculaIdade(int dia_b, int mes_b, int ano_b){
     time_t data_a = mktime(&data_atual);
     time_t data_b = mktime(&data_nascimento);
 
-    double idade = difftime(data_a, data_b);
+    double diff_segundos = difftime(data_a, data_b);
+
+    //debug
+    printf("%.0f", diff_segundos);
 
     //1 segundo = 3.1688×10^-8 anos
 
-    int diferenca_dias = ( idade / (3.1688 * pow(10, -8)) );
+    int diferenca_dias = ( diff_segundos / (3.1688 * pow(10, -8)) );
 
+    //resultado esperado: 599.525.453
+
+    exit(1);
     return diferenca_dias;
 
 }
@@ -431,3 +437,9 @@ void printDebugConsulta(Consulta* consulta){
     );
 
 }
+
+/*
+//DEBUG
+printf("chegou aqui\n");
+exit(1);
+*/
