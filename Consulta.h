@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include <math.h>
 
 typedef struct consulta Consulta;
@@ -34,6 +33,7 @@ void abortaProcesso(Consulta* consulta);    //encerra processo se colocada saida
 void gravaLog(Consulta* consulta);
 
 //Debug
+void apagaLogs();
 void printDebugConsulta(Consulta* consulta);
 
 

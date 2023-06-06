@@ -8,13 +8,13 @@ clean:
 	rm -f *.o
 
 input1:
-	./trab1 < inputs/input1 > output1
+	./trab1 < inputs/input1
 
 input2:
-	./trab1 < inputs/input2 > output1
+	./trab1 < inputs/input2
 
 input3:
-	./trab1 < inputs/input3 > output1
+	./trab1 < inputs/input3
 
 valgrind:
-	valgrind ./trab1 < inputs/input3 > output1
+	valgrind ./trab1 < inputs/input1

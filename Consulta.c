@@ -2,6 +2,8 @@
 
 struct consulta{
 
+    char cartao_sus[19];
+
     int diabetes, fumante, alergia, historico_cancer;
     char* medicamento_alergia;
     int pele;                       //(I, II, III, IV, V, VI)
@@ -43,7 +45,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
     char cartao_sus[19];
     scanf(" %s", cartao_sus);
     
-    int checa_cartao = verificaCadastro(cartao_sus);        //dando seg fault
+    int checa_cartao = verificaCadastro(cartao_sus);
     //DEBUG
     printf("%s %d\n", cartao_sus, checa_cartao);
 
@@ -55,6 +57,8 @@ Consulta* iniciaConsulta(Consulta* consulta){
         return NULL;
 
     }
+
+    strcpy(consulta->cartao_sus, cartao_sus);
 
 
     //Diabetes
@@ -359,7 +363,7 @@ int calculaIdade(int dia_b, int mes_b, int ano_b){
 
     return idade;
     
-    // tentativa de usar a time.h
+    // TENTATIVA DE USAR A time.h
 
     //tm_year -> number of years since 1900
     //tm_mon -> range 0 to 11
@@ -402,7 +406,7 @@ int calculaIdade(int dia_b, int mes_b, int ano_b){
 void liberaConsulta(Consulta* consulta){
 
     if(consulta->alergia == 1) free(consulta->medicamento_alergia);
-    free(consulta->lesao);
+    if(consulta->cont_lesao > 0)free(consulta->lesao);
     free(consulta);
 
 }
@@ -423,27 +427,56 @@ void gravaLog(Consulta* consulta){
 
     while(1){
 
-        char str[10] = "log_";
-        sprintf(str, "%d", cont_logs);
+        char str[10];
+        sprintf(str, "log_%d", cont_logs);
 
         checa_logs = fopen(str, "r");
-        cont_logs++;
 
         if(checa_logs == NULL) break;
 
+        cont_logs++;
         fclose(checa_logs);
 
     }
 
-    fclose(checa_logs);
-
     //Grava novo arquivo log apos consulta
-    char str[10] = "log_";
-    sprintf(str, "%d", cont_logs);
+    char str[10];
+    sprintf(str, "log_%d", cont_logs);
+    printf("%s\n", str);
 
     FILE* log = fopen(str, "w");
 
+    fprintf(log, "%s\n", consulta->cartao_sus);
 
+    for(int i=1; i<=consulta->cont_lesao; i++)
+        fprintf(log, "L%d\n", i);
+
+    fclose(log);
+
+}
+
+
+
+void apagaLogs(){
+
+    FILE* checa_logs;
+    int cont_logs = 1;
+
+    while(1){
+
+        char str[10];
+        sprintf(str, "log_%d", cont_logs);
+
+        checa_logs = fopen(str, "r");
+
+        if(checa_logs == NULL) break;
+
+        fclose(checa_logs);
+        remove(str);
+
+        cont_logs++;
+
+    }
 
 }
 

@@ -17,8 +17,6 @@ mas não posso dizer com certeza se na prática é a mesma coisa
 
 int main(){
 
-    
-
     //debug
     reiniciaBancoPacientes();
 
@@ -36,6 +34,11 @@ int main(){
 
     //debug
     printDebugConsulta(consulta);
+
+    gravaLog(consulta);
+
+    //debug
+    apagaLogs();
 
     liberaPacientes(paciente);
     liberaConsulta(consulta);
