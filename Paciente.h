@@ -1,5 +1,5 @@
-#ifndef MINISADE_H_
-#define MINISADE_H_
+#ifndef PACIENTE_H_
+#define PACIENTE_H_
 
 #include <stdio.h>
 #include <stdlib.h>
