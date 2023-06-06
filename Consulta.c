@@ -47,7 +47,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
     
     int checa_cartao = verificaCadastro(cartao_sus);
     //DEBUG
-    printf("%s %d\n", cartao_sus, checa_cartao);
+    // printf("%s %d\n", cartao_sus, checa_cartao);
 
     if(checa_cartao == 0){
 
@@ -68,7 +68,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
     converteLetrasMaiusculo(getResposta);
     aux = verificaResposta(getResposta);
     //DEBUG
-    printf("%d\n", aux);
+    // printf("%d\n", aux);
     
     // if(aux == -1) abortaProcesso(consulta);
     consulta->diabetes = aux;
@@ -81,7 +81,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
     converteLetrasMaiusculo(getResposta);
     aux = verificaResposta(getResposta);
     //DEBUG
-    printf("%d\n", aux);
+    // printf("%d\n", aux);
     
     // if(aux == -1) abortaProcesso(consulta);
     consulta->fumante = aux;
@@ -94,7 +94,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
     converteLetrasMaiusculo(getResposta);
     aux = verificaResposta(getResposta);
     //DEBUG
-    printf("%d\n", aux);
+    // printf("%d\n", aux);
     
     // if(aux == -1) abortaProcesso(consulta);
     consulta->alergia = aux;
@@ -106,8 +106,8 @@ Consulta* iniciaConsulta(Consulta* consulta){
         converteLetrasMaiusculo(getMedicamento);
         consulta->medicamento_alergia = strdup(getMedicamento);
         //DEBUG
-        printf("%s\n", getMedicamento);
-        printf("%d\n", aux);
+        // printf("%s\n", getMedicamento);
+        // printf("%d\n", aux);
 
     }
 
@@ -119,7 +119,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
     converteLetrasMaiusculo(getResposta);
     aux = verificaResposta(getResposta);
     //DEBUG
-    printf("%d\n", aux);
+    // printf("%d\n", aux);
     
     // if(aux == -1) abortaProcesso(consulta);
     consulta->historico_cancer = aux;
@@ -132,7 +132,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
     converteLetrasMaiusculo(getResposta);
     aux = verificaPele(getResposta);
     //DEBUG
-    printf("%d\n", aux);
+    // printf("%d\n", aux);
 
     // if(aux == -1) abortaProcesso(consulta);
     consulta->pele = aux;
@@ -158,7 +158,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
         printf("Diagnóstico: ");
         scanf(" %s", getResposta);
         //DEBUG
-        printf("%s\n", getResposta);
+        // printf("%s\n", getResposta);
 
         converteLetrasMaiusculo(getResposta);
         strcpy( consulta->lesao[id].diagnostico, getResposta );
@@ -168,7 +168,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
         printf("Região: ");
         scanf(" %s", getResposta);
         //DEBUG
-        printf("%s\n", getResposta);
+        // printf("%s\n", getResposta);
 
         converteLetrasMaiusculo(getResposta);
         strcpy( consulta->lesao[id].regiao, getResposta );
@@ -178,7 +178,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
         printf("(mm) Tamanho: ");
         scanf(" %d\n", &consulta->lesao[id].tamanho);
         //DEBUG
-        printf("%d\n", consulta->lesao[id].tamanho);
+        // printf("%d\n", consulta->lesao[id].tamanho);
 
 
         //Cirurgia
@@ -188,7 +188,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
         converteLetrasMaiusculo(getResposta);
         aux = verificaResposta(getResposta);
         //DEBUG
-        printf("%d\n", aux);
+        // printf("%d\n", aux);
         
         // if(aux == -1) abortaProcesso(consulta);
         consulta->lesao[id].cirurgia = aux;
@@ -201,7 +201,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
         converteLetrasMaiusculo(getResposta);
         aux = verificaResposta(getResposta);
         //DEBUG
-        printf("%d\n", aux);
+        // printf("%d\n", aux);
         
         // if(aux == -1) abortaProcesso(consulta);
         consulta->lesao[id].crioterapia = aux;
@@ -214,7 +214,7 @@ Consulta* iniciaConsulta(Consulta* consulta){
         converteLetrasMaiusculo(getResposta);
         aux = verificaResposta(getResposta);
         //DEBUG
-        printf("%d\n", aux);
+        // printf("%d\n", aux);
         
         // if(aux == -1) abortaProcesso(consulta);
 
@@ -442,7 +442,6 @@ void gravaLog(Consulta* consulta){
     //Grava novo arquivo log apos consulta
     char str[10];
     sprintf(str, "log_%d", cont_logs);
-    printf("%s\n", str);
 
     FILE* log = fopen(str, "w");
 

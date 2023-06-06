@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "Paciente.h"
 #include "Consulta.h"
+#include "Busca.h"
+#include "Relatorio.h"
 #include "Menu.h"
 
 /*
@@ -26,19 +28,19 @@ int main(){
     gravaPaciente(paciente);
 
     //debug
-    printDebugPaciente(paciente);
+    //printDebugPaciente(paciente);
 
     Consulta* consulta = criaConsulta();
     consulta = iniciaConsulta(consulta);
     //if(consulta == NULL) continue;
 
     //debug
-    printDebugConsulta(consulta);
+    //printDebugConsulta(consulta);
 
     gravaLog(consulta);
 
     //debug
-    apagaLogs();
+    //apagaLogs();
 
     liberaPacientes(paciente);
     liberaConsulta(consulta);

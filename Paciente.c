@@ -25,7 +25,7 @@ Paciente* preCadastroPaciente(){
 
     scanf("%[^\n]", nome_aux);
     
-    nome_aux[strlen(nome_aux) - 1] = '\0';          //Remove \n
+    nome_aux[strlen(nome_aux)] = '\0';          //Remove \n
 
     paciente->nome = strdup(nome_aux);              
 
