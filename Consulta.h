@@ -13,6 +13,11 @@ typedef struct lesao Lesao;
 #define TAM_MAX_LINHA 105
 #define TAM_MAX_MEDICAMENTO 70
 
+//data atual: 11/05/2023
+#define DIA_ATUAL 11
+#define MES_ATUAL 05
+#define ANO_ATUAL 2023
+
 //Consulta
 Consulta* criaConsulta();
 Consulta* iniciaConsulta(Consulta* consulta);

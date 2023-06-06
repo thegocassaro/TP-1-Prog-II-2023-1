@@ -327,42 +327,73 @@ int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 
 
 int calculaIdade(int dia_b, int mes_b, int ano_b){
 
-    //data atual: 11/05/2023
+    int idade = 0;
+
+    if(MES_ATUAL > mes_b){
+
+        idade = ANO_ATUAL - ano_b;
+
+    }
+
+    else if(MES_ATUAL < mes_b){
+
+        idade = (ANO_ATUAL - ano_b) - 1;
+
+    }
+
+    else if(MES_ATUAL == mes_b){
+
+        if(DIA_ATUAL <= dia_b){
+
+            idade = (ANO_ATUAL - ano_b) - 1;
+
+        }
+
+        else if(DIA_ATUAL > dia_b){
+
+            idade = ANO_ATUAL - ano_b;
+
+        }
+
+    }
+
+    return idade;
     
+    // tentativa de usar a time.h
+
     //tm_year -> number of years since 1900
     //tm_mon -> range 0 to 11
 
-    int dia_a = 11, mes_a = 4, ano_a = (2023 - 1900);
+    // int dia_a = 11, mes_a = 4, ano_a = (2023 - 1900);
 
-    mes_b -= 1;
-    ano_b -= 1900;
+    // mes_b -= 1;
+    // ano_b -= 1900;
 
-    struct tm data_atual, data_nascimento;
+    // struct tm data_atual, data_nascimento;
 
-    data_atual.tm_mday = dia_a;
-    data_atual.tm_mon = mes_a;
-    data_atual.tm_year = ano_a;
+    // data_atual.tm_mday = dia_a;
+    // data_atual.tm_mon = mes_a;
+    // data_atual.tm_year = ano_a;
 
-    data_nascimento.tm_mday = dia_b;
-    data_nascimento.tm_mon = mes_b;
-    data_nascimento.tm_year = ano_b;
+    // data_nascimento.tm_mday = dia_b;
+    // data_nascimento.tm_mon = mes_b;
+    // data_nascimento.tm_year = ano_b;
 
-    time_t data_a = mktime(&data_atual);
-    time_t data_b = mktime(&data_nascimento);
+    // time_t data_a = mktime(&data_atual);
+    // time_t data_b = mktime(&data_nascimento);
 
-    double diff_segundos = difftime(data_a, data_b);
+    // double diff_segundos = difftime(data_a, data_b);
 
-    //debug
-    printf("%.0f", diff_segundos);
+    // //debug
+    // printf("%.0f", diff_segundos);
 
-    //1 segundo = 3.1688×10^-8 anos
+    // //1 segundo = 3.1688×10^-8 anos
 
-    int diferenca_dias = ( diff_segundos / (3.1688 * pow(10, -8)) );
+    // int diferenca_dias = ( diff_segundos / (3.1688 * pow(10, -8)) );
 
-    //resultado esperado: 599.525.453
+    // //resultado esperado: 599.525.453
 
-    exit(1);
-    return diferenca_dias;
+    // return diferenca_dias;
 
 }
 
