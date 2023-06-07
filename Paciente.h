@@ -14,13 +14,13 @@ typedef struct paciente Paciente;
 #define QTD_PACIENTES cadastro->qtd_pacientes
 #define OI 23
 
-Cadastro* inicializaListaCadastro();
-Paciente* preCadastroPaciente(Cadastro* cadastro);
-void gravaPaciente(Paciente* paciente);
-void liberaPacientes(Paciente* paciente);
+Cadastro* criaCadastro();
+Cadastro* preCadastroPaciente(Cadastro* cadastro);
+void liberaPacientes(Cadastro* cadastro);
+// void gravaPaciente(Paciente* paciente);
 
 //Debug
-void printDebugPaciente(Paciente* paciente);
+void printDebugPaciente(Cadastro* cadastro);
 void reiniciaBancoPacientes();
 
 #endif

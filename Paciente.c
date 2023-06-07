@@ -22,7 +22,7 @@ struct paciente{
 //Falta tratar os casos que não estao dentro dos formatos
 
 
-Cadastro* inicializaListaCadastro(){
+Cadastro* criaCadastro(){
 
     Cadastro* cadastro = (Cadastro*)malloc(sizeof(Cadastro));
     cadastro->lista_pacientes = (Paciente**)malloc(sizeof(Paciente*));
@@ -36,7 +36,7 @@ Cadastro* inicializaListaCadastro(){
 
 //Retorna um paciente caso acorra tudo certo / NULL se cartão já houver sido cadastrado
 
-Paciente* preCadastroPaciente(Cadastro* cadastro){
+Cadastro* preCadastroPaciente(Cadastro* cadastro){
 
     Paciente* paciente = (Paciente*) malloc(sizeof(Paciente));
 
@@ -121,53 +121,62 @@ Paciente* preCadastroPaciente(Cadastro* cadastro){
 
 
 
-void gravaPaciente(Paciente* paciente){
+// void gravaPaciente(Cadastro* cadastro){
 
-    FILE* file = fopen("banco_pacientes", "r+");
+//     FILE* file = fopen("banco_pacientes", "r+");
 
-    if(file == NULL){
-        printf("Erro na abertura do arquivo 'banco_pacientes'\n");
-        exit(1);
+//     if(file == NULL){
+//         printf("Erro na abertura do arquivo 'banco_pacientes'\n");
+//         exit(1);
+//     }
+
+//     int n_pacientes = 0;
+
+//     //Reescreve numero de pacientes
+
+//     fscanf(file, "%d", &n_pacientes);
+
+//     fseek(file, 0, SEEK_SET);
+
+//     fprintf(file, "%d", (n_pacientes + 1));
+
+//     //Grava em formato csv
+
+//     fseek(file, 0, SEEK_END);
+
+//     fprintf(file, "\n%s;%s;%s;%s;%s",   paciente->nome, 
+//                                         paciente->cartao_sus, 
+//                                         paciente->data_nascimento, 
+//                                         paciente->telefone, 
+//                                         paciente->genero);
+
+
+//     fclose(file);
+
+// }
+
+
+void liberaPacientes(Cadastro* cadastro){
+
+    for(int i=0; i<cadastro->qtd_pacientes; i++){
+        free(cadastro->lista_pacientes[i]->nome);
+        free(cadastro->lista_pacientes[i]);
     }
 
-    int n_pacientes = 0;
-
-    //Reescreve numero de pacientes
-
-    fscanf(file, "%d", &n_pacientes);
-
-    fseek(file, 0, SEEK_SET);
-
-    fprintf(file, "%d", (n_pacientes + 1));
-
-    //Grava em formato csv
-
-    fseek(file, 0, SEEK_END);
-
-    fprintf(file, "\n%s;%s;%s;%s;%s",   paciente->nome, 
-                                        paciente->cartao_sus, 
-                                        paciente->data_nascimento, 
-                                        paciente->telefone, 
-                                        paciente->genero);
-
-
-    fclose(file);
-
-}
-
-
-void liberaPacientes(Paciente* paciente){
-
-    free(paciente->nome);
-    free(paciente);
+    free(cadastro->lista_pacientes);
+    free(cadastro);
 
 }
 
 
 
-void printDebugPaciente(Paciente* paciente){
+void printDebugPaciente(Cadastro* cadastro){
 
-    printf("%s %s %s %s %s\n", paciente->nome, paciente->cartao_sus, paciente->data_nascimento, paciente->telefone, paciente->genero);
+    printf("%s %s %s %s %s\n", cadastro->lista_pacientes[0]->nome, 
+    cadastro->lista_pacientes[0]->cartao_sus, 
+    cadastro->lista_pacientes[0]->data_nascimento, 
+    cadastro->lista_pacientes[0]->telefone, 
+    cadastro->lista_pacientes[0]->genero);
     
 }
 

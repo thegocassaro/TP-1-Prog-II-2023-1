@@ -19,23 +19,23 @@ typedef struct lesao Lesao;
 #define ANO_ATUAL 2023
 
 //Consulta
-Consulta* criaConsulta();
-Consulta* iniciaConsulta(Consulta* consulta);
-void liberaConsulta(Consulta* consulta);
+Atendimento* criaAtendimento();
+Atendimento* iniciaConsulta(Atendimento* atendimento);
+void liberaConsultas(Atendimento* atendimento);
 
 int verificaCadastro(char* cartao_sus);
 int calculaIdade(int dia_b, int mes_b, int ano_b);
 int verificaResposta(char* resposta);
 int verificaPele(char* resposta);
 void converteLetrasMaiusculo(char* str);
-void abortaProcesso(Consulta* consulta);    //encerra processo se colocada saida nao esperada e desaloca memoria
+void abortaProcesso(Atendimento* atendimento);    //encerra processo se colocada saida nao esperada e desaloca memoria
 
 //Logs
 void gravaLog(Consulta* consulta);
 
 //Debug
 void apagaLogs();
-void printDebugConsulta(Consulta* consulta);
+void printDebugConsulta(Atendimento* atendimento);
 
 
 #endif

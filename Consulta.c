@@ -2,7 +2,7 @@
 
 struct atendimento{
 
-    Consulta* lista_consultas;
+    Consulta** lista_consultas;
     int qtd_consultas;
 
 };
@@ -32,16 +32,21 @@ struct lesao{
 
 
 
-Consulta* criaConsulta(){
+Atendimento* criaAtendimento(){
 
-    Consulta* consulta = (Consulta*)calloc(1, sizeof(Consulta));
-    return consulta;
+    Atendimento* atendimento = (Atendimento*)malloc(sizeof(Atendimento));
+    atendimento->lista_consultas = (Consulta**)malloc(sizeof(Consulta*));
+    atendimento->qtd_consultas = 0;
+
+    return atendimento;
 
 }
 
 
 
-Consulta* iniciaConsulta(Consulta* consulta){
+Atendimento* iniciaConsulta(Atendimento* atendimento){
+
+    Consulta* consulta = (Consulta*)malloc(sizeof(Consulta));
 
     char getResposta[4];
     char getMedicamento[TAM_MAX_MEDICAMENTO];
@@ -52,16 +57,15 @@ Consulta* iniciaConsulta(Consulta* consulta){
     char cartao_sus[19];
     scanf(" %s", cartao_sus);
     
-    int checa_cartao = verificaCadastro(cartao_sus);
     //DEBUG
-    // printf("%s %d\n", cartao_sus, checa_cartao);
+    // printf("%s \n", cartao_sus);
 
-    if(checa_cartao == 0){
+    if(verificaCadastro(cartao_sus) == 0){
 
         printf("Esse número de cartão não está cadastrado. Consulta abortada.\n");
         free(consulta);
 
-        return NULL;
+        return atendimento;
 
     }
 
@@ -235,7 +239,13 @@ Consulta* iniciaConsulta(Consulta* consulta){
 
     }
 
-    return consulta;
+    gravaLog(consulta);
+
+    atendimento->lista_consultas = (Consulta**)realloc(atendimento->lista_consultas, sizeof(Consulta*) * (atendimento->qtd_consultas + 1));
+    atendimento->lista_consultas[atendimento->qtd_consultas] = consulta;
+    atendimento->qtd_consultas++;
+
+    return atendimento;
 
 }
 
@@ -283,7 +293,7 @@ int verificaPele(char* resposta){
 
 int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 0 se não
 
-    FILE* file = fopen("banco_pacientes", "r");
+    FILE* file = fopen("banco_pacientes", "r");           //mudar aqui pra ao inves de ler do arquivo, ele comparar pelos vetores mesmo
 
     if(file == NULL){
         printf("Erro na abertura do arquivo 'banco_pacientes'");
@@ -354,13 +364,13 @@ int calculaIdade(int dia_b, int mes_b, int ano_b){
 
     else if(MES_ATUAL == mes_b){
 
-        if(DIA_ATUAL <= dia_b){
+        if(DIA_ATUAL < dia_b){
 
             idade = (ANO_ATUAL - ano_b) - 1;
 
         }
 
-        else if(DIA_ATUAL > dia_b){
+        else if(DIA_ATUAL >= dia_b){
 
             idade = ANO_ATUAL - ano_b;
 
@@ -410,17 +420,24 @@ int calculaIdade(int dia_b, int mes_b, int ano_b){
 
 
 
-void liberaConsulta(Consulta* consulta){
+void liberaConsultas(Atendimento* atendimento){
 
-    if(consulta->alergia == 1) free(consulta->medicamento_alergia);
-    if(consulta->qtd_lesoes > 0)free(consulta->lesao);
-    free(consulta);
+    for(int i=0; i<atendimento->qtd_consultas; i++){
+    
+        if(atendimento->lista_consultas[i]->alergia == 1) free(atendimento->lista_consultas[i]->medicamento_alergia);
+        if(atendimento->lista_consultas[i]->qtd_lesoes > 0)free(atendimento->lista_consultas[i]->lesao);
+        free(atendimento->lista_consultas[i]);
+
+    }
+
+    free(atendimento->lista_consultas);
+    free(atendimento);
 
 }
 
 
 
-void abortaProcesso(Consulta* consulta){
+void abortaProcesso(Atendimento* atendimento){
 
 }
 
@@ -488,21 +505,21 @@ void apagaLogs(){
 
 
 
-void printDebugConsulta(Consulta* consulta){
+void printDebugConsulta(Atendimento* atendimento){
 
-    printf("%d %d %d %d %d %d %d %d %d %s %s %s %s\n",  consulta->diabetes,
-                                                        consulta->fumante,
-                                                        consulta->historico_cancer,
-                                                        consulta->alergia,
-                                                        consulta->pele,
-                                                        consulta->qtd_lesoes,
-                                                        consulta->lesao->tamanho,
-                                                        consulta->lesao->cirurgia,
-                                                        consulta->lesao->crioterapia,
-                                                        consulta->medicamento_alergia,
-                                                        consulta->lesao->rotulo,
-                                                        consulta->lesao->diagnostico,
-                                                        consulta->lesao->regiao
+    printf("%d %d %d %d %d %d %d %d %d %s %s %s %s\n",  atendimento->lista_consultas[0]->diabetes,
+                                                        atendimento->lista_consultas[0]->fumante,
+                                                        atendimento->lista_consultas[0]->historico_cancer,
+                                                        atendimento->lista_consultas[0]->alergia,
+                                                        atendimento->lista_consultas[0]->pele,
+                                                        atendimento->lista_consultas[0]->qtd_lesoes,
+                                                        atendimento->lista_consultas[0]->lesao->tamanho,
+                                                        atendimento->lista_consultas[0]->lesao->cirurgia,
+                                                        atendimento->lista_consultas[0]->lesao->crioterapia,
+                                                        atendimento->lista_consultas[0]->medicamento_alergia,
+                                                        atendimento->lista_consultas[0]->lesao->rotulo,
+                                                        atendimento->lista_consultas[0]->lesao->diagnostico,
+                                                        atendimento->lista_consultas[0]->lesao->regiao
 
     );
 

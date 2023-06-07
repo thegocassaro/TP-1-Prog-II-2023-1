@@ -22,26 +22,24 @@ int main(){
     //debug
     reiniciaBancoPacientes();
 
-    Cadastro* cadastro = inicializaListaCadastro();
+    Cadastro* cadastro = criaCadastro();
     cadastro = preCadastroPaciente(cadastro);
 
     //debug
     //printDebugPaciente(paciente);
 
-    Consulta* consulta = criaConsulta();
-    consulta = iniciaConsulta(consulta);
+    Atendimento* atendimento = criaAtendimento();
+    atendimento = iniciaConsulta(atendimento);
     //if(consulta == NULL) continue;
 
     //debug
     //printDebugConsulta(consulta);
 
-    gravaLog(consulta);
-
     //debug
     //apagaLogs();
 
-    liberaPacientes(paciente);
-    liberaConsulta(consulta);
+    liberaPacientes(cadastro);
+    liberaConsultas(atendimento);
 
     return 0;
 
