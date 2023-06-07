@@ -6,12 +6,16 @@
 #include <string.h>
 #include "Consulta.h"
 
+typedef struct cadastro Cadastro;
 typedef struct paciente Paciente;
 
 //Pré-Cadastro
 #define TAM_MAX_LINHA 105
+#define QTD_PACIENTES cadastro->qtd_pacientes
+#define OI 23
 
-Paciente* preCadastroPaciente();
+Cadastro* inicializaListaCadastro();
+Paciente* preCadastroPaciente(Cadastro* cadastro);
 void gravaPaciente(Paciente* paciente);
 void liberaPacientes(Paciente* paciente);
 

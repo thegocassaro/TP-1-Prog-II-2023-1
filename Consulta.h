@@ -6,6 +6,7 @@
 #include <string.h>
 #include <math.h>
 
+typedef struct atendimento Atendimento;
 typedef struct consulta Consulta;
 typedef struct lesao Lesao;
 

@@ -1,5 +1,12 @@
 #include "Consulta.h"
 
+struct atendimento{
+
+    Consulta* lista_consultas;
+    int qtd_consultas;
+
+};
+
 struct consulta{
 
     char cartao_sus[19];
@@ -9,7 +16,7 @@ struct consulta{
     int pele;                       //(I, II, III, IV, V, VI)
 
     Lesao* lesao;
-    int cont_lesao;
+    int qtd_lesoes;
 
 };
 
@@ -144,14 +151,14 @@ Consulta* iniciaConsulta(Consulta* consulta){
     //Experimentando usar *lesao ao invés de **lesao, como normalmente faria
 
     consulta->lesao = (Lesao*)calloc(1, sizeof(Lesao));
-    consulta->cont_lesao = 1;
+    consulta->qtd_lesoes = 1;
 
     while(1){
 
-        int id = consulta->cont_lesao - 1;
+        int id = consulta->qtd_lesoes - 1;
         
         //Rotulo
-        sprintf( consulta->lesao[id].rotulo, "L%c", ('0' + consulta->cont_lesao) ); 
+        sprintf( consulta->lesao[id].rotulo, "L%c", ('0' + consulta->qtd_lesoes) ); 
 
 
         //Diagnostico
@@ -221,8 +228,8 @@ Consulta* iniciaConsulta(Consulta* consulta){
         if(aux == 0) break;
 
         //if aux == 1
-        consulta->cont_lesao += 1;
-        consulta->lesao = (Lesao*)realloc(consulta->lesao, sizeof(Lesao) * (consulta->cont_lesao));
+        consulta->qtd_lesoes += 1;
+        consulta->lesao = (Lesao*)realloc(consulta->lesao, sizeof(Lesao) * (consulta->qtd_lesoes));
     
         //se eu realoco um ponteiro que eu iniciei com calloc, ele setta os bytes pra zero também?
 
@@ -363,10 +370,10 @@ int calculaIdade(int dia_b, int mes_b, int ano_b){
 
     return idade;
     
-    // TENTATIVA DE USAR A time.h
+    // // TENTATIVA DE USAR A time.h
 
-    //tm_year -> number of years since 1900
-    //tm_mon -> range 0 to 11
+    // // tm_year -> number of years since 1900
+    // // tm_mon -> range 0 to 11
 
     // int dia_a = 11, mes_a = 4, ano_a = (2023 - 1900);
 
@@ -406,7 +413,7 @@ int calculaIdade(int dia_b, int mes_b, int ano_b){
 void liberaConsulta(Consulta* consulta){
 
     if(consulta->alergia == 1) free(consulta->medicamento_alergia);
-    if(consulta->cont_lesao > 0)free(consulta->lesao);
+    if(consulta->qtd_lesoes > 0)free(consulta->lesao);
     free(consulta);
 
 }
@@ -447,7 +454,7 @@ void gravaLog(Consulta* consulta){
 
     fprintf(log, "%s\n", consulta->cartao_sus);
 
-    for(int i=1; i<=consulta->cont_lesao; i++)
+    for(int i=1; i<=consulta->qtd_lesoes; i++)
         fprintf(log, "L%d\n", i);
 
     fclose(log);
@@ -488,7 +495,7 @@ void printDebugConsulta(Consulta* consulta){
                                                         consulta->historico_cancer,
                                                         consulta->alergia,
                                                         consulta->pele,
-                                                        consulta->cont_lesao,
+                                                        consulta->qtd_lesoes,
                                                         consulta->lesao->tamanho,
                                                         consulta->lesao->cirurgia,
                                                         consulta->lesao->crioterapia,

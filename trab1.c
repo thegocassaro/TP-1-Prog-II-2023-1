@@ -22,10 +22,8 @@ int main(){
     //debug
     reiniciaBancoPacientes();
 
-    Paciente* paciente = preCadastroPaciente();
-    //if(paciente == NULL) continue;
-
-    gravaPaciente(paciente);
+    Cadastro* cadastro = inicializaListaCadastro();
+    cadastro = preCadastroPaciente(cadastro);
 
     //debug
     //printDebugPaciente(paciente);

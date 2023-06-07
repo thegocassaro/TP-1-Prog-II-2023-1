@@ -1,5 +1,12 @@
 #include "Paciente.h"
 
+struct cadastro{
+
+    Paciente** lista_pacientes;
+    int qtd_pacientes;
+
+};
+
 struct paciente{
 
     char* nome;
@@ -15,9 +22,21 @@ struct paciente{
 //Falta tratar os casos que não estao dentro dos formatos
 
 
+Cadastro* inicializaListaCadastro(){
+
+    Cadastro* cadastro = (Cadastro*)malloc(sizeof(Cadastro));
+    cadastro->lista_pacientes = (Paciente**)malloc(sizeof(Paciente*));
+    cadastro->qtd_pacientes = 0;
+
+    return cadastro;
+
+}
+
+
+
 //Retorna um paciente caso acorra tudo certo / NULL se cartão já houver sido cadastrado
 
-Paciente* preCadastroPaciente(){
+Paciente* preCadastroPaciente(Cadastro* cadastro){
 
     Paciente* paciente = (Paciente*) malloc(sizeof(Paciente));
 
@@ -35,7 +54,7 @@ Paciente* preCadastroPaciente(){
 
     //Checa repetição de cartão sus
 
-    FILE* file = fopen("banco_pacientes", "r");
+    FILE* file = fopen("banco_pacientes", "r");            //mudar aqui pra ao inves de ler do arquivo, ele comparar pelos vetores mesmo
     
     if(file == NULL){
         printf("Erro na abertura do arquivo 'banco_pacientes'");
@@ -66,15 +85,13 @@ Paciente* preCadastroPaciente(){
 
             paciente = NULL;
 
-            return paciente;
+            return cadastro;
 
         }
 
     }
 
     fclose(file);
-
-
 
     //Continua leitura
 
@@ -95,7 +112,11 @@ Paciente* preCadastroPaciente(){
     // fgets(paciente->genero, 10, stdin);
     // scanf("%*c");
 
-    return paciente;
+    cadastro->lista_pacientes = (Paciente**)realloc(cadastro->lista_pacientes, sizeof(Paciente*) * (cadastro->qtd_pacientes + 1));
+    cadastro->lista_pacientes[cadastro->qtd_pacientes] = paciente;
+    cadastro->qtd_pacientes++;
+
+    return cadastro;
 }
 
 
