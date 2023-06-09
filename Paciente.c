@@ -40,43 +40,23 @@ Cadastro* preCadastroPaciente(Cadastro* cadastro){
 
     Paciente* paciente = (Paciente*) malloc(sizeof(Paciente));
 
-    char nome_aux[50];
+    char nome_aux[TAM_MAX_NOME];
 
     scanf("%[^\n]", nome_aux);
-    
+
     nome_aux[strlen(nome_aux)] = '\0';          //Remove \n
 
     paciente->nome = strdup(nome_aux);              
 
+
     scanf(" %s", paciente->cartao_sus);           
 
-    
 
     //Checa repetição de cartão sus
 
-    FILE* file = fopen("banco_pacientes", "r");            //mudar aqui pra ao inves de ler do arquivo, ele comparar pelos vetores mesmo
-    
-    if(file == NULL){
-        printf("Erro na abertura do arquivo 'banco_pacientes'");
-        exit(0);
-    }
+    for(int i=0; i<cadastro->qtd_pacientes; i++){
 
-    int n_pacientes = 0;
-    char linha[TAM_MAX_LINHA];
-    char* token;
-
-    fscanf(file, "%d", &n_pacientes);
-
-    for(int i=0; i<n_pacientes; i++){
-
-        fscanf(file, " %[^\n]", linha);
-
-        token = strtok(linha, ";");
-        token = strtok(NULL, ";");
-
-        if(strcmp(paciente->cartao_sus, token) == 0){
-
-            fclose(file);
+        if(strcmp(paciente->cartao_sus, cadastro->lista_pacientes[i]->cartao_sus) == 0){
 
             printf("Esse número de cartão já existe. Por favor refaça o cadastro.\n");
 
@@ -90,8 +70,6 @@ Cadastro* preCadastroPaciente(Cadastro* cadastro){
         }
 
     }
-
-    fclose(file);
 
     //Continua leitura
 
@@ -166,6 +144,38 @@ void liberaPacientes(Cadastro* cadastro){
     free(cadastro->lista_pacientes);
     free(cadastro);
 
+}
+
+
+
+void* getPaciente(Cadastro* cadastro, int indice, int select){
+
+    switch(select){
+
+        case NOME_P:
+            return cadastro->lista_pacientes[indice]->nome;
+
+        case CARTAO_P:
+            return cadastro->lista_pacientes[indice]->cartao_sus;
+
+        case DATA_P:
+            return cadastro->lista_pacientes[indice]->data_nascimento;
+
+        case TELEFONE_P:
+            return cadastro->lista_pacientes[indice]->telefone;
+
+        case GENERO_P:
+            return cadastro->lista_pacientes[indice]->genero;
+
+        case QTD_P:
+            return &cadastro->qtd_pacientes;
+
+        default:
+            printf("Erro na seleção de getPaciente\n");
+            return NULL;
+
+    }
+    
 }
 
 

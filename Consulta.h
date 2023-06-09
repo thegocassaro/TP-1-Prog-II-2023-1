@@ -5,12 +5,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include "Paciente.h"
 
 typedef struct atendimento Atendimento;
 typedef struct consulta Consulta;
 typedef struct lesao Lesao;
 
-#define TAM_MAX_LINHA 105
 #define TAM_MAX_MEDICAMENTO 70
 
 //data atual: 11/05/2023
@@ -20,10 +20,10 @@ typedef struct lesao Lesao;
 
 //Consulta
 Atendimento* criaAtendimento();
-Atendimento* iniciaConsulta(Atendimento* atendimento);
+Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro);
 void liberaConsultas(Atendimento* atendimento);
 
-int verificaCadastro(char* cartao_sus);
+int verificaCadastro(Cadastro* cadastro, char* cartao_sus);
 int calculaIdade(int dia_b, int mes_b, int ano_b);
 int verificaResposta(char* resposta);
 int verificaPele(char* resposta);

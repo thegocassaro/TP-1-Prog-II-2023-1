@@ -29,7 +29,7 @@ int main(){
     //printDebugPaciente(paciente);
 
     Atendimento* atendimento = criaAtendimento();
-    atendimento = iniciaConsulta(atendimento);
+    atendimento = iniciaConsulta(atendimento, cadastro);
     //if(consulta == NULL) continue;
 
     //debug

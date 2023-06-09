@@ -44,7 +44,7 @@ Atendimento* criaAtendimento(){
 
 
 
-Atendimento* iniciaConsulta(Atendimento* atendimento){
+Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
     Consulta* consulta = (Consulta*)malloc(sizeof(Consulta));
 
@@ -60,7 +60,7 @@ Atendimento* iniciaConsulta(Atendimento* atendimento){
     //DEBUG
     // printf("%s \n", cartao_sus);
 
-    if(verificaCadastro(cartao_sus) == 0){
+    if(verificaCadastro(cadastro, cartao_sus) == 0){
 
         printf("Esse número de cartão não está cadastrado. Consulta abortada.\n");
         free(consulta);
@@ -291,28 +291,18 @@ int verificaPele(char* resposta){
 
 
 
-int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 0 se não
+//Retorna 1 se existe / 0 se não
 
-    FILE* file = fopen("banco_pacientes", "r");           //mudar aqui pra ao inves de ler do arquivo, ele comparar pelos vetores mesmo
+int verificaCadastro(Cadastro* cadastro, char* cartao_sus){
 
-    if(file == NULL){
-        printf("Erro na abertura do arquivo 'banco_pacientes'");
-        exit(0);
-    }
+    int* n_pacientes = (int*)getPaciente(cadastro, 0, QTD_P);
+    char nome_lido[TAM_MAX_NOME];
+    char cartao_sus_lido[19];
+    char data_lida[11];
 
-    int n_pacientes = 0;
-    char linha[TAM_MAX_LINHA];
-    char *nome_lido, *cartao_sus_lido, *data_lida;
+    for(int i=0; i<*n_pacientes; i++){
 
-    fscanf(file, "%d", &n_pacientes);
-
-    for(int i=0; i<n_pacientes; i++){
-
-        fscanf(file, " %[^\n]", linha);
-
-        nome_lido = strtok(linha, ";");
-        cartao_sus_lido = strtok(NULL, ";");
-        data_lida = strtok(NULL, ";");
+        strcpy(cartao_sus_lido, (char*)getPaciente(cadastro, i, CARTAO_P));
 
         //Se existir cartao, tambem exibe o nome e idade do paciente
         if(strcmp(cartao_sus, cartao_sus_lido) == 0){
@@ -322,6 +312,8 @@ int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 
             //token = strtok(NULL, ";");        -> aqui ja retorna null, sempre
             //e logo em seguida dava seg fault
             
+            strcpy(data_lida, (char*)getPaciente(cadastro, i, CARTAO_P));
+
             int dia, mes, ano;
             sscanf(data_lida, "%d/%d/%d", &dia, &mes, &ano);
 
@@ -330,15 +322,11 @@ int verificaCadastro(char* cartao_sus){                 //Retorna 1 se existe / 
             printf("NOME: %s\n", nome_lido);
             printf("IDADE: %d\n\n", idade);
 
-            fclose(file);
-
             return 1;
 
         }
 
     }
-
-    fclose(file);
 
     return 0;
 
