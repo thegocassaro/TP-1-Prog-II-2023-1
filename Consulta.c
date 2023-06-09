@@ -311,8 +311,9 @@ int verificaCadastro(Cadastro* cadastro, char* cartao_sus){
             //token = strtok(linha, ";");       -> aqui ainda funciona e retorna o nome
             //token = strtok(NULL, ";");        -> aqui ja retorna null, sempre
             //e logo em seguida dava seg fault
-            
-            strcpy(data_lida, (char*)getPaciente(cadastro, i, CARTAO_P));
+
+            strcpy(nome_lido, (char*)getPaciente(cadastro, i, NOME_P));
+            strcpy(data_lida, (char*)getPaciente(cadastro, i, DATA_P));
 
             int dia, mes, ano;
             sscanf(data_lida, "%d/%d/%d", &dia, &mes, &ano);

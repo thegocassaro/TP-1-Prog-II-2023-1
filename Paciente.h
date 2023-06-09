@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Consulta.h"
 
 typedef struct cadastro Cadastro;
 typedef struct paciente Paciente;

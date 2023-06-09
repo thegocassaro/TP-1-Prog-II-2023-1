@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include "Paciente.h"
 #include "Consulta.h"
-#include "Busca.h"
-#include "Relatorio.h"
+#include "Funcionalidades.h"
 #include "Menu.h"
 
 /*
@@ -29,7 +28,7 @@ int main(){
     //printDebugPaciente(paciente);
 
     Atendimento* atendimento = criaAtendimento();
-    atendimento = iniciaConsulta(atendimento, cadastro);
+    atendimento = iniciaConsulta(atendimento, cadastro);    
     //if(consulta == NULL) continue;
 
     //debug
