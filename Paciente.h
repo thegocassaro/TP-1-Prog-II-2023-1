@@ -11,6 +11,7 @@ typedef struct paciente Paciente;
 
 #define TAM_MAX_NOME 50
 
+//enum só serve pra variáveis?
 #define NOME_P     0
 #define CARTAO_P   1
 #define DATA_P     2
