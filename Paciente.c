@@ -189,20 +189,3 @@ void printDebugPaciente(Cadastro* cadastro){
     cadastro->lista_pacientes[0]->genero);
     
 }
-
-
-
-void reiniciaBancoPacientes(){
-
-    FILE* file = fopen("banco_pacientes", "w");
-
-    if(file == NULL){
-        printf("Erro na abertura do arquivo 'banco_pacientes'\n");
-        exit(1);
-    }
-
-    fprintf(file, "%d", 0);
-
-    fclose(file);
-
-}

@@ -19,23 +19,22 @@ mas não posso dizer com certeza se na prática é a mesma coisa
 int main(){
 
     //debug
-    reiniciaBancoPacientes();
+    apagaLogs();
 
     Cadastro* cadastro = criaCadastro();
     cadastro = preCadastroPaciente(cadastro);
 
     //debug
-    //printDebugPaciente(paciente);
+    //printDebugPaciente(cadastro);
 
     Atendimento* atendimento = criaAtendimento();
     atendimento = iniciaConsulta(atendimento, cadastro);    
     //if(consulta == NULL) continue;
 
     //debug
-    //printDebugConsulta(consulta);
+    //printDebugConsulta(atendimento);
 
-    //debug
-    //apagaLogs();
+    geraArquivoBusca(cadastro, atendimento);
 
     liberaPacientes(cadastro);
     liberaConsultas(atendimento);

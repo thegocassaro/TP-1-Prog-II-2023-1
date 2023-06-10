@@ -18,8 +18,8 @@ typedef struct lesao Lesao;
 #define MES_ATUAL 05
 #define ANO_ATUAL 2023
 
-enum select{CARTAO_C, DIABETES_C, FUMANTE_C, ALERGIA_C, HISTORICO_C, MEDICAMENTO_C, PELE_C, 
-            NLESOES, NCONSULTAS, LESOES, ROTULO_L, DIAGNOSTICO_L, REGIAO_L, TAMANHO_L, CIRURGIA_L, CRIOTERAPIA_L};
+enum select{CARTAO_C, DIABETES_C, FUMANTE_C, ALERGIA_C, HISTORICO_C, MEDICAMENTO_C, PELE_C, QTD_CRIO, QTD_CIRUR, 
+            NLESOES, NCONSULTAS, ROTULO_L, DIAGNOSTICO_L, REGIAO_L, TAMANHO_L, CIRURGIA_L, CRIOTERAPIA_L};
 
 //Consulta
 Atendimento* criaAtendimento();
@@ -37,8 +37,7 @@ void abortaProcesso(Atendimento* atendimento);    //encerra processo se colocada
 void gravaLog(Consulta* consulta);
 
 //Intermodulação
-void* getConsulta(Atendimento* atendimento, int indice, int select, int indice_lesao, int select_lesao);
-void* getLesao(Lesao* lesoes, int indice, int select);
+void* getConsulta(Atendimento* atendimento, int indice, int select, int indice_lesao);
 
 //Debug
 void apagaLogs();

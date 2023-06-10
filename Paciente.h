@@ -29,6 +29,5 @@ void* getPaciente(Cadastro* cadastro, int indice, int select);
 
 //Debug
 void printDebugPaciente(Cadastro* cadastro);
-void reiniciaBancoPacientes();
 
 #endif

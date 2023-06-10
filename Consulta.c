@@ -18,6 +18,8 @@ struct consulta{
     Lesao* lesao;
     int qtd_lesoes;
 
+    int qtd_cirurgias, qtd_crioterapias;
+
 };
 
 struct lesao{
@@ -156,6 +158,8 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
     consulta->lesao = (Lesao*)calloc(1, sizeof(Lesao));
     consulta->qtd_lesoes = 1;
+    consulta->qtd_cirurgias = 0;
+    consulta->qtd_crioterapias = 0;
 
     while(1){
 
@@ -203,6 +207,7 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
         
         // if(aux == -1) abortaProcesso(consulta);
         consulta->lesao[id].cirurgia = aux;
+        if(aux == 1) consulta->qtd_cirurgias += 1;
 
 
         //Crioterapia
@@ -216,6 +221,7 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
         
         // if(aux == -1) abortaProcesso(consulta);
         consulta->lesao[id].crioterapia = aux;
+        if(aux == 1) consulta->qtd_crioterapias += 1;
 
 
         //Mais lesoes?
@@ -426,7 +432,7 @@ void liberaConsultas(Atendimento* atendimento){
 
 
 
-void* getConsulta(Atendimento* atendimento, int indice, int select, int indice_lesao, int select_lesao){
+void* getConsulta(Atendimento* atendimento, int indice, int select, int indice_lesao){
 
     switch(select){
 
@@ -457,40 +463,33 @@ void* getConsulta(Atendimento* atendimento, int indice, int select, int indice_l
         case NLESOES:
             return &atendimento->lista_consultas[indice]->qtd_lesoes;
 
-        case LESOES:
-            return getLesao(atendimento->lista_consultas[indice]->lesao, indice_lesao, select_lesao);
+        case QTD_CRIO:
+            return &atendimento->lista_consultas[indice]->qtd_crioterapias;
+
+        case QTD_CIRUR:
+            return &atendimento->lista_consultas[indice]->qtd_cirurgias;
+
+        case ROTULO_L:
+            return atendimento->lista_consultas[indice]->lesao[indice_lesao].rotulo;
+
+        case DIAGNOSTICO_L:
+            return atendimento->lista_consultas[indice]->lesao[indice_lesao].diagnostico;
+
+        case REGIAO_L:
+            return atendimento->lista_consultas[indice]->lesao[indice_lesao].regiao;
+
+        case TAMANHO_L:
+            return &atendimento->lista_consultas[indice]->lesao[indice_lesao].tamanho;
+
+        case CIRURGIA_L:
+            return &atendimento->lista_consultas[indice]->lesao[indice_lesao].cirurgia;
+
+        case CRIOTERAPIA_L:
+            return &atendimento->lista_consultas[indice]->lesao[indice_lesao].crioterapia;
 
         default:
             printf("Erro na seleção de getConsulta\n");
             return NULL;
-
-    }
-
-}
-
-
-
-void* getLesao(Lesao* lesoes, int indice, int select){
-
-    switch(select){
-
-        case ROTULO_L:
-            return lesoes[indice].rotulo;
-
-        case DIAGNOSTICO_L:
-            return lesoes[indice].diagnostico;
-
-        case REGIAO_L:
-            return lesoes[indice].regiao;
-
-        case TAMANHO_L:
-            return &lesoes[indice].tamanho;
-
-        case CIRURGIA_L:
-            return &lesoes[indice].cirurgia;
-
-        case CRIOTERAPIA_L:
-            return &lesoes[indice].crioterapia;
 
     }
 
