@@ -426,6 +426,78 @@ void liberaConsultas(Atendimento* atendimento){
 
 
 
+void* getConsulta(Atendimento* atendimento, int indice, int select, int indice_lesao, int select_lesao){
+
+    switch(select){
+
+        case CARTAO_C:
+            return atendimento->lista_consultas[indice]->cartao_sus;
+
+        case DIABETES_C:
+            return &atendimento->lista_consultas[indice]->diabetes;
+
+        case FUMANTE_C:
+            return &atendimento->lista_consultas[indice]->fumante;
+
+        case ALERGIA_C:
+            return &atendimento->lista_consultas[indice]->alergia;
+
+        case HISTORICO_C:
+            return &atendimento->lista_consultas[indice]->historico_cancer;
+
+        case MEDICAMENTO_C:
+            return atendimento->lista_consultas[indice]->medicamento_alergia;
+
+        case PELE_C:
+            return &atendimento->lista_consultas[indice]->pele;
+
+        case NCONSULTAS:
+            return &atendimento->qtd_consultas;
+
+        case NLESOES:
+            return &atendimento->lista_consultas[indice]->qtd_lesoes;
+
+        case LESOES:
+            return getLesao(atendimento->lista_consultas[indice]->lesao, indice_lesao, select_lesao);
+
+        default:
+            printf("Erro na seleção de getConsulta\n");
+            return NULL;
+
+    }
+
+}
+
+
+
+void* getLesao(Lesao* lesoes, int indice, int select){
+
+    switch(select){
+
+        case ROTULO_L:
+            return lesoes[indice].rotulo;
+
+        case DIAGNOSTICO_L:
+            return lesoes[indice].diagnostico;
+
+        case REGIAO_L:
+            return lesoes[indice].regiao;
+
+        case TAMANHO_L:
+            return &lesoes[indice].tamanho;
+
+        case CIRURGIA_L:
+            return &lesoes[indice].cirurgia;
+
+        case CRIOTERAPIA_L:
+            return &lesoes[indice].crioterapia;
+
+    }
+
+}
+
+
+
 void abortaProcesso(Atendimento* atendimento){
 
 }
