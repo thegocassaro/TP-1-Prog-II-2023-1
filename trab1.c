@@ -59,7 +59,7 @@ int main(){
 
     //Limpa arquivos
     //apagaRelatorio();
-    apagaLogs();
+    //apagaLogs();
 
     return 0;
 
