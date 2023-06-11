@@ -288,20 +288,20 @@ void geraRelatorio(Cadastro* cadastro, Atendimento* atendimento){
     fprintf(arq_relatorio, "NUMERO TOTAL DE PACIENTES ATENDIDOS: %d\n", cont_pacientes_atendidos);
     fprintf(arq_relatorio, "IDADE MEDIA: %d +- %d ANOS\n", media_idade, desvio_idade);
     fprintf(arq_relatorio, "DISTRIBUICAO POR GENERO:\n");
-    fprintf(arq_relatorio, "- FEMININO: %.2f%\n", p_fem);
-    fprintf(arq_relatorio, "- MASCULINO: %.2f%\n", p_masc);
-    fprintf(arq_relatorio, "- OUTROS: %.2f&\n", p_outros);
+    fprintf(arq_relatorio, "- FEMININO: %.2f%%\n", p_fem);
+    fprintf(arq_relatorio, "- MASCULINO: %.2f%%\n", p_masc);
+    fprintf(arq_relatorio, "- OUTROS: %.2f%%\n", p_outros);
     fprintf(arq_relatorio, "TAMANHO MEDIO DAS LESOES: %d +- %d\n", media_tam, desvio_tam);
     fprintf(arq_relatorio, "NUMERO TOTAL DE LESOES: %d\n", n_lesoes);
-    fprintf(arq_relatorio, "NUMERO TOTAL DE CIRURGIAS: %d (%.2f%)\n", n_cirurgias);
-    fprintf(arq_relatorio, "NUMERO TOTAL DE CRIOTERAPIA: %d (%.2f%)\n", n_crioterapias);
+    fprintf(arq_relatorio, "NUMERO TOTAL DE CIRURGIAS: %d (%.2f%%)\n", n_cirurgias, p_cirurgias);
+    fprintf(arq_relatorio, "NUMERO TOTAL DE CRIOTERAPIA: %d (%.2f%%)\n", n_crioterapias, p_crioterapias);
     fprintf(arq_relatorio, "DISTRIBUICAO POR DIAGNOSTICO:\n");
-    fprintf(arq_relatorio, "- CERATOSE ACTINICA: %d (%.2f%)\n", cont_ca, p_ca);
-    fprintf(arq_relatorio, "- CARCINOMA BASOCELULAR: %d (%.2f%)\n", cont_cb, p_cb);
-    fprintf(arq_relatorio, "- CARCINOMA ESPINOCELULAR: %d (%.2f%)\n", cont_ce, p_ce);
-    fprintf(arq_relatorio, "- NEVO: %d (%.2f%)\n", cont_nevo, p_nevo);
-    fprintf(arq_relatorio, "- CERATOSE SEBORREICA: %d (%.2f%)\n", cont_cs, p_cs);
-    fprintf(arq_relatorio, "- MELANOMA: %d (%.2f%)", cont_mela, p_mela);
+    fprintf(arq_relatorio, "- CERATOSE ACTINICA: %d (%.2f%%)\n", cont_ca, p_ca);
+    fprintf(arq_relatorio, "- CARCINOMA BASOCELULAR: %d (%.2f%%)\n", cont_cb, p_cb);
+    fprintf(arq_relatorio, "- CARCINOMA ESPINOCELULAR: %d (%.2f%%)\n", cont_ce, p_ce);
+    fprintf(arq_relatorio, "- NEVO: %d (%.2f%%)\n", cont_nevo, p_nevo);
+    fprintf(arq_relatorio, "- CERATOSE SEBORREICA: %d (%.2f%%)\n", cont_cs, p_cs);
+    fprintf(arq_relatorio, "- MELANOMA: %d (%.2f%%)", cont_mela, p_mela);
 
     fclose(arq_relatorio);
 
@@ -359,5 +359,13 @@ int calculaDesvioPadrao(int* vetor, int media, int tamanho){
     variancia = somatorio / tamanho;
 
     return sqrt(variancia);
+
+}
+
+
+
+void apagaRelatorio(){
+
+    remove("relatorio_final");
 
 }

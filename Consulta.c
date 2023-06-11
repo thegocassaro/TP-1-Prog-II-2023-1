@@ -36,8 +36,8 @@ struct lesao{
 
 Atendimento* criaAtendimento(){
 
-    Atendimento* atendimento = (Atendimento*)malloc(sizeof(Atendimento));
-    atendimento->lista_consultas = (Consulta**)malloc(sizeof(Consulta*));
+    Atendimento* atendimento = (Atendimento*)malloc(sizeof(Atendimento) * 1);
+    atendimento->lista_consultas = (Consulta**)malloc(sizeof(Consulta*) * 1);
     atendimento->qtd_consultas = 0;
 
     return atendimento;
@@ -50,7 +50,7 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
     Consulta* consulta = (Consulta*)malloc(sizeof(Consulta));
 
-    char getResposta[4];
+    char getResposta[24];
     char getMedicamento[TAM_MAX_MEDICAMENTO];
     int aux = 0;
 
@@ -59,9 +59,7 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
     char cartao_sus[19];
     scanf(" %s", cartao_sus);
     
-    //DEBUG
-    // printf("%s \n", cartao_sus);
-
+    
     if(verificaCadastro(cadastro, cartao_sus) == 0){
 
         printf("Esse número de cartão não está cadastrado. Consulta abortada.\n");
@@ -80,10 +78,8 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
     converteLetrasMaiusculo(getResposta);
     aux = verificaResposta(getResposta);
-    //DEBUG
-    // printf("%d\n", aux);
-    
     // if(aux == -1) abortaProcesso(consulta);
+    
     consulta->diabetes = aux;
 
 
@@ -93,10 +89,8 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
     converteLetrasMaiusculo(getResposta);
     aux = verificaResposta(getResposta);
-    //DEBUG
-    // printf("%d\n", aux);
-    
     // if(aux == -1) abortaProcesso(consulta);
+    
     consulta->fumante = aux;
     
 
@@ -106,10 +100,8 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
     converteLetrasMaiusculo(getResposta);
     aux = verificaResposta(getResposta);
-    //DEBUG
-    // printf("%d\n", aux);
-    
     // if(aux == -1) abortaProcesso(consulta);
+    
     consulta->alergia = aux;
 
     if(consulta->alergia){
@@ -118,9 +110,7 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
         converteLetrasMaiusculo(getMedicamento);
         consulta->medicamento_alergia = strdup(getMedicamento);
-        //DEBUG
-        // printf("%s\n", getMedicamento);
-        // printf("%d\n", aux);
+        
 
     }
 
@@ -131,10 +121,8 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
     converteLetrasMaiusculo(getResposta);
     aux = verificaResposta(getResposta);
-    //DEBUG
-    // printf("%d\n", aux);
-    
     // if(aux == -1) abortaProcesso(consulta);
+    
     consulta->historico_cancer = aux;
     
 
@@ -144,10 +132,8 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
     converteLetrasMaiusculo(getResposta);
     aux = verificaPele(getResposta);
-    //DEBUG
-    // printf("%d\n", aux);
-
     // if(aux == -1) abortaProcesso(consulta);
+    
     consulta->pele = aux;
 
 
@@ -160,6 +146,7 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
     consulta->qtd_lesoes = 1;
     consulta->qtd_cirurgias = 0;
     consulta->qtd_crioterapias = 0;
+    int flag = 0;
 
     while(1){
 
@@ -170,11 +157,12 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
 
         //Diagnostico
-        printf("Diagnóstico: ");
-        scanf(" %s", getResposta);
-        //DEBUG
-        // printf("%s\n", getResposta);
-
+        if(flag == 0){
+            printf("Diagnóstico: ");
+            scanf(" %s", getResposta);  
+        }
+        
+        
         converteLetrasMaiusculo(getResposta);
         strcpy( consulta->lesao[id].diagnostico, getResposta );
 
@@ -182,9 +170,7 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
         //Regiao
         printf("Região: ");
         scanf(" %s", getResposta);
-        //DEBUG
-        // printf("%s\n", getResposta);
-
+        
         converteLetrasMaiusculo(getResposta);
         strcpy( consulta->lesao[id].regiao, getResposta );
 
@@ -192,9 +178,7 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
         //Tamanho
         printf("(mm) Tamanho: ");
         scanf(" %d\n", &consulta->lesao[id].tamanho);
-        //DEBUG
-        // printf("%d\n", consulta->lesao[id].tamanho);
-
+        
 
         //Cirurgia
         printf("(SIM ou NAO) Necessidade de cirurgia? ");
@@ -202,10 +186,8 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
         converteLetrasMaiusculo(getResposta);
         aux = verificaResposta(getResposta);
-        //DEBUG
-        // printf("%d\n", aux);
-        
         // if(aux == -1) abortaProcesso(consulta);
+        
         consulta->lesao[id].cirurgia = aux;
         if(aux == 1) consulta->qtd_cirurgias += 1;
 
@@ -216,24 +198,25 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
         converteLetrasMaiusculo(getResposta);
         aux = verificaResposta(getResposta);
-        //DEBUG
-        // printf("%d\n", aux);
-        
         // if(aux == -1) abortaProcesso(consulta);
+        
         consulta->lesao[id].crioterapia = aux;
         if(aux == 1) consulta->qtd_crioterapias += 1;
 
 
         //Mais lesoes?
-        printf("(SIM ou NAO) Deseja cadastrar outra lesão? ");
+        printf("Diagnóstico: ");
         scanf(" %s", getResposta);
 
+        //Checa se digita E, senao ultimo scanf conta pro proximo diagnostico de lesao
         converteLetrasMaiusculo(getResposta);
-        aux = verificaResposta(getResposta);
-        //DEBUG
-        // printf("%d\n", aux);
-        
+        if(!strcmp(getResposta, "E")) aux = 0;
+        else{
+            aux = 1;
+            flag = 1;
+        }
         // if(aux == -1) abortaProcesso(consulta);
+        
 
         if(aux == 0) break;
 

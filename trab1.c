@@ -18,26 +18,48 @@ mas não posso dizer com certeza se na prática é a mesma coisa
 
 int main(){
 
-    //debug
-    apagaLogs();
+    int opcao = 0;
 
     Cadastro* cadastro = criaCadastro();
-    cadastro = preCadastroPaciente(cadastro);
-
-    //debug
-    //printDebugPaciente(cadastro);
-
     Atendimento* atendimento = criaAtendimento();
-    atendimento = iniciaConsulta(atendimento, cadastro);    
-    //if(consulta == NULL) continue;
+    
+    while(opcao != -1){
 
-    //debug
-    //printDebugConsulta(atendimento);
+        layoutMenu();
 
-    geraArquivoBusca(cadastro, atendimento);
+        opcao = selecionaOpcao();
 
-    liberaPacientes(cadastro);
-    liberaConsultas(atendimento);
+        switch(opcao){
+
+            case PRE_CADASTRO:
+                cadastro = preCadastroPaciente(cadastro);
+                break;
+
+            case ATENDIMENTO:
+                atendimento = iniciaConsulta(atendimento, cadastro);    
+                break;
+
+            case BUSCA:
+                geraArquivoBusca(cadastro, atendimento);
+                break;
+
+            case RELATORIO:
+                geraRelatorio(cadastro, atendimento);
+                break;
+
+            case FINALIZAR:
+                liberaPacientes(cadastro);
+                liberaConsultas(atendimento);
+                opcao = -1;
+                break;
+
+        }
+
+    }
+
+    //Limpa arquivos
+    //apagaRelatorio();
+    apagaLogs();
 
     return 0;
 

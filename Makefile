@@ -7,17 +7,5 @@ files.o:
 clean:
 	rm -f *.o
 
-input1:
-	./trab1 < inputs/input1
-
-input2:
-	./trab1 < inputs/input2
-
-input3:
-	./trab1 < inputs/input3
-
-input4:
-	./trab1 < inputs/input4
-
 valgrind:
-	valgrind ./trab1 < inputs/input1
+	valgrind -s --leak-check=full --track-origins=yes ./trab1 < testes/teste_1/entrada_1

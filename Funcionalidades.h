@@ -24,4 +24,7 @@ int verificaGenero(Cadastro* cadastro, int i);
 int verificaDiagnostico(Atendimento* atendimento, int j, int k);
 int calculaDesvioPadrao(int* vetor, int media, int tamanho);
 
+//Debug
+void apagaRelatorio();
+
 #endif
