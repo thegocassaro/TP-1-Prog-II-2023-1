@@ -42,7 +42,7 @@ Cadastro* preCadastroPaciente(Cadastro* cadastro){
 
     char nome_aux[TAM_MAX_NOME];
 
-    scanf("%[^\n]", nome_aux);
+    scanf(" %[^\n]", nome_aux);
 
     nome_aux[strlen(nome_aux)] = '\0';          //Remove \n
 
