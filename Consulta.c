@@ -142,42 +142,63 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
     //Experimentando usar *lesao ao invés de **lesao, como normalmente faria
 
-    consulta->lesao = (Lesao*)calloc(1, sizeof(Lesao));
-    consulta->qtd_lesoes = 1;
+    consulta->lesao = NULL;
+    consulta->qtd_lesoes = 0;
     consulta->qtd_cirurgias = 0;
     consulta->qtd_crioterapias = 0;
     int flag = 0;
 
     while(1){
 
-        int id = consulta->qtd_lesoes - 1;
-        
-        //Rotulo
-        sprintf( consulta->lesao[id].rotulo, "L%c", ('0' + consulta->qtd_lesoes) ); 
-
+        int id = consulta->qtd_lesoes;
 
         //Diagnostico
-        if(flag == 0){
-            printf("Diagnóstico: ");
-            scanf(" %s", getResposta);  
-        }
-        
-        
+        printf("Diagnóstico: ");
+        scanf(" %s", getResposta);
         converteLetrasMaiusculo(getResposta);
+        aux = verificaResposta(getResposta);
+
+        if(aux == -1) {
+            //abortaProcesso(consulta);
+            break;
+        }
+
+        consulta->qtd_lesoes += 1;
+        consulta->lesao = (Lesao*)realloc(consulta->lesao, sizeof(Lesao) * (consulta->qtd_lesoes));
+
         strcpy( consulta->lesao[id].diagnostico, getResposta );
+
+
+        //Rotulo
+        sprintf( consulta->lesao[id].rotulo, "L%c", ('0' + consulta->qtd_lesoes) );
 
 
         //Regiao
         printf("Região: ");
         scanf(" %s", getResposta);
-        
         converteLetrasMaiusculo(getResposta);
+        aux = verificaResposta(getResposta);
+
+        if(aux == -1) {
+            //abortaProcesso(consulta);
+            break;
+        }
+
         strcpy( consulta->lesao[id].regiao, getResposta );
 
 
         //Tamanho
         printf("(mm) Tamanho: ");
-        scanf(" %d\n", &consulta->lesao[id].tamanho);
+        scanf(" %s\n", getResposta);
+        converteLetrasMaiusculo(getResposta);
+        aux = verificaTamanho(getResposta);
+
+        if(aux == -1) {
+            //abortaProcesso(consulta);
+            break;
+        }
+
+        consulta->lesao[id].tamanho = aux;
         
 
         //Cirurgia
@@ -205,26 +226,13 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
 
         //Mais lesoes?
-        printf("Diagnóstico: ");
-        scanf(" %s", getResposta);
 
-        //Checa se digita E, senao ultimo scanf conta pro proximo diagnostico de lesao
-        converteLetrasMaiusculo(getResposta);
-        if(!strcmp(getResposta, "E")) aux = 0;
-        else{
-            aux = 1;
-            flag = 1;
-        }
-        // if(aux == -1) abortaProcesso(consulta);
-        
-
-        if(aux == 0) break;
+        //debug
+        break;
 
         //if aux == 1
         consulta->qtd_lesoes += 1;
         consulta->lesao = (Lesao*)realloc(consulta->lesao, sizeof(Lesao) * (consulta->qtd_lesoes));
-    
-        //se eu realoco um ponteiro que eu iniciei com calloc, ele setta os bytes pra zero também?
 
     }
 
@@ -240,6 +248,15 @@ Atendimento* iniciaConsulta(Atendimento* atendimento, Cadastro* cadastro){
 
 
 
+//Se escreve E, preenche com vazio as informacoes nao coletadas
+void abortaProcesso(Atendimento* atendimento){
+
+
+
+}
+
+
+
 void converteLetrasMaiusculo(char* str){
 
     int tam_str = strlen(str);
@@ -250,6 +267,29 @@ void converteLetrasMaiusculo(char* str){
 
     }
 
+}
+
+
+
+int verificaTamanho(char* resposta){
+
+    if(resposta[0] == 'E' && resposta[1] == '\0') return -1;
+
+    int c_decimal = 1;
+    int num = 0;
+
+    for(int i=(strlen(resposta) - 1); i>=0; i--){
+
+        if(resposta[i] >= '0' && resposta[i] <= '9'){
+
+            num += ((int)resposta[i] - 30) * c_decimal;
+            c_decimal *= 10;
+
+        }
+
+    }
+    
+    return num;
 }
 
 
@@ -295,11 +335,6 @@ int verificaCadastro(Cadastro* cadastro, char* cartao_sus){
 
         //Se existir cartao, tambem exibe o nome e idade do paciente
         if(strcmp(cartao_sus, cartao_sus_lido) == 0){
-
-            //por algum motivo, depois do primeiro uso do strtok, quando tentei chamar a funcao de novo, usando 
-            //token = strtok(linha, ";");       -> aqui ainda funciona e retorna o nome
-            //token = strtok(NULL, ";");        -> aqui ja retorna null, sempre
-            //e logo em seguida dava seg fault
 
             strcpy(nome_lido, (char*)getPaciente(cadastro, i, NOME_P));
             strcpy(data_lida, (char*)getPaciente(cadastro, i, DATA_P));
@@ -357,42 +392,6 @@ int calculaIdade(int dia_b, int mes_b, int ano_b){
     }
 
     return idade;
-    
-    // // TENTATIVA DE USAR A time.h
-
-    // // tm_year -> number of years since 1900
-    // // tm_mon -> range 0 to 11
-
-    // int dia_a = 11, mes_a = 4, ano_a = (2023 - 1900);
-
-    // mes_b -= 1;
-    // ano_b -= 1900;
-
-    // struct tm data_atual, data_nascimento;
-
-    // data_atual.tm_mday = dia_a;
-    // data_atual.tm_mon = mes_a;
-    // data_atual.tm_year = ano_a;
-
-    // data_nascimento.tm_mday = dia_b;
-    // data_nascimento.tm_mon = mes_b;
-    // data_nascimento.tm_year = ano_b;
-
-    // time_t data_a = mktime(&data_atual);
-    // time_t data_b = mktime(&data_nascimento);
-
-    // double diff_segundos = difftime(data_a, data_b);
-
-    // //debug
-    // printf("%.0f", diff_segundos);
-
-    // //1 segundo = 3.1688×10^-8 anos
-
-    // int diferenca_dias = ( diff_segundos / (3.1688 * pow(10, -8)) );
-
-    // //resultado esperado: 599.525.453
-
-    // return diferenca_dias;
 
 }
 
@@ -475,12 +474,6 @@ void* getConsulta(Atendimento* atendimento, int indice, int select, int indice_l
             return NULL;
 
     }
-
-}
-
-
-
-void abortaProcesso(Atendimento* atendimento){
 
 }
 

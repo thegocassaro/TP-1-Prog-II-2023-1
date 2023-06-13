@@ -22,7 +22,6 @@ typedef struct paciente Paciente;
 Cadastro* criaCadastro();
 Cadastro* preCadastroPaciente(Cadastro* cadastro);
 void liberaPacientes(Cadastro* cadastro);
-// void gravaPaciente(Paciente* paciente);
 
 //Intermodulação
 void* getPaciente(Cadastro* cadastro, int indice, int select);

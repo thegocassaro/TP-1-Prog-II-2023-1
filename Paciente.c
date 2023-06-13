@@ -11,7 +11,7 @@ struct paciente{
 
     char* nome;
     char cartao_sus[19];        //formato: 000-0000-0000-0000
-    char data_nascimento[11];   //seria muito hype se eu conseguisse pedir pro usuario completar __/__/____ nos espacinhos tlg
+    char data_nascimento[11];   //formato: 00/00/0000
     char telefone[15];          //formato: (00)00000-0000
     char genero[10];            //masculino, feminino, outros
 
@@ -77,19 +77,6 @@ Cadastro* preCadastroPaciente(Cadastro* cadastro){
     scanf(" %s", paciente->telefone);
     scanf(" %s", paciente->genero);
 
-    //nao to entendendo pq ta guardando errado o primeiro caractere de cada string. 
-    //nao pode ser problema do \n pq eu to engolindo todos com o scanf (se eu tiro todos dá errado igual)
-    //ta guardando o telefone no genero e nada em telefone
-
-    // fgets(paciente->cartao_sus, 19, stdin);
-    // scanf("%*c");
-    // fgets(paciente->data_nascimento, 11, stdin);
-    // scanf("%*c");
-    // fgets(paciente->telefone, 15, stdin);
-    // scanf("%*c");
-    // fgets(paciente->genero, 10, stdin);
-    // scanf("%*c");
-
     cadastro->lista_pacientes = (Paciente**)realloc(cadastro->lista_pacientes, sizeof(Paciente*) * (cadastro->qtd_pacientes + 1));
     cadastro->lista_pacientes[cadastro->qtd_pacientes] = paciente;
     cadastro->qtd_pacientes++;
@@ -97,41 +84,6 @@ Cadastro* preCadastroPaciente(Cadastro* cadastro){
     return cadastro;
 }
 
-
-
-// void gravaPaciente(Cadastro* cadastro){
-
-//     FILE* file = fopen("banco_pacientes", "r+");
-
-//     if(file == NULL){
-//         printf("Erro na abertura do arquivo 'banco_pacientes'\n");
-//         exit(1);
-//     }
-
-//     int n_pacientes = 0;
-
-//     //Reescreve numero de pacientes
-
-//     fscanf(file, "%d", &n_pacientes);
-
-//     fseek(file, 0, SEEK_SET);
-
-//     fprintf(file, "%d", (n_pacientes + 1));
-
-//     //Grava em formato csv
-
-//     fseek(file, 0, SEEK_END);
-
-//     fprintf(file, "\n%s;%s;%s;%s;%s",   paciente->nome, 
-//                                         paciente->cartao_sus, 
-//                                         paciente->data_nascimento, 
-//                                         paciente->telefone, 
-//                                         paciente->genero);
-
-
-//     fclose(file);
-
-// }
 
 
 void liberaPacientes(Cadastro* cadastro){

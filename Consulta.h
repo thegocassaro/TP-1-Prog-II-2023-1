@@ -30,6 +30,7 @@ int verificaCadastro(Cadastro* cadastro, char* cartao_sus);
 int calculaIdade(int dia_b, int mes_b, int ano_b);
 int verificaResposta(char* resposta);
 int verificaPele(char* resposta);
+int verificaTamanho(char* resposta);
 void converteLetrasMaiusculo(char* str);
 void abortaProcesso(Atendimento* atendimento);    //encerra processo se colocada saida nao esperada e desaloca memoria
 

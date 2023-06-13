@@ -33,10 +33,14 @@ int main(){
 
             case PRE_CADASTRO:
                 cadastro = preCadastroPaciente(cadastro);
+                //debug
+                //printDebugPaciente(cadastro);
                 break;
 
             case ATENDIMENTO:
-                atendimento = iniciaConsulta(atendimento, cadastro);    
+                atendimento = iniciaConsulta(atendimento, cadastro);
+                //debug
+                printDebugConsulta(atendimento);
                 break;
 
             case BUSCA:
